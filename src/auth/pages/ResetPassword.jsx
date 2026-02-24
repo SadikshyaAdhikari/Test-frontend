@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import axios from 'axios';
 import { useParams, useSearchParams } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 export function ResetPassword(){
     const [newPassword, setNewPassword] = useState('');
     const [searchParams] = useSearchParams();
-    const params = useParams()
+    const params = useParams();
     const resetToken = params.resetToken;
+    const nav = useNavigate();
 
 
     console.log('URL params:', Object.fromEntries(searchParams));
@@ -23,7 +25,7 @@ export function ResetPassword(){
                 { withCredentials: true }
             );
             alert('Password reset successfully. You can now log in with your new password.');
-            window.location.href = '/login';   
+            nav('/login');  
         } catch (err) {
             alert(err.response?.data?.error || 'Password reset failed');
         }
