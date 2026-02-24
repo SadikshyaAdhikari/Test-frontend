@@ -28,20 +28,37 @@ export function ForgotPassword(){
     };
 
     return( 
-        <form onSubmit={handleSubmit}>
-            <h2>Forgot Password</h2>
-            <input
-                type="email"
-                placeholder="Enter your email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-            />
-            <button type="submit" disabled={loading}>
-                {loading ? 'Sending...' : 'Send OTP'}
-            </button>
-            {error && <p>{error}</p>}
-        </form>
-    );
+            <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-md">
+                <form onSubmit={handleSubmit}>
+                    <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">Forgot Password</h2>
+                    
+                    <div className="mb-6">
+                        <input
+                            type="email"
+                            placeholder="Enter your email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            required
+                            className="w-full px-4 py-2 border border-gray-900 bg-white text-black  rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                        />
+                    </div>
+                    
+                    <div className="mb-4">
+                        <button 
+                            type="submit" 
+                            disabled={loading}
+                            className="w-full bg-indigo-600 hover:bg-indigo-700 disabled:bg-indigo-400 text-white font-semibold py-2 px-4 rounded-lg transition duration-200"
+                        >
+                            {loading ? 'Sending...' : 'Send OTP'}
+                        </button>
+                        {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
+                    </div>
 
+                    <div className="text-center">
+                        <a href="/login" className="text-indigo-600 hover:text-indigo-900 underline text-sm">Back to Login</a>
+                    </div>
+                </form>
+            </div>
+    
+    );
 }

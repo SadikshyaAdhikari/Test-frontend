@@ -31,40 +31,47 @@ export function Login (){
             }   
     };
     return(
-        <form onSubmit={handleSubmit(onSubmit)}>
-            <h2>Login</h2> 
-            <div>
-            <input
-                type="email"
-                placeholder="Email"
-                {...register("email",{required:"Email is required"})}
-            />
-            {errors.email && <p>{errors.email.message}</p>}
-                </div> 
-            <div>
+        // <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
+            <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-md">
+                <form onSubmit={handleSubmit(onSubmit)}>
+                    <h2 className="text-3xl font-bold text-gray-900 mb-6 text-center">Login</h2> 
+                    <div className="mb-4">
+                        <input
+                            type="email"
+                            placeholder="Email"
+                            className="w-full px-4 py-2 border border-gray-900 bg-white text-black rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                            {...register("email",{required:"Email is required"})}
+                        />
+                        {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>}
+                    </div> 
+                    <div className="mb-6">
+                        <input
+                            type="password"
+                            placeholder="Password"
+                            className="w-full px-4 py-2 border border-gray-900 bg-white text-black  rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                            {...register("password",{required:"Password is required"})}
+                        />
+                        {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>}
+                    </div>
+                    <div className="mb-4">
+                        <button 
+                            type="submit" 
+                            disabled={loading}
+                            className="w-full bg-indigo-500 hover:bg-indigo-700 disabled:bg-indigo-400 text-white font-semibold py-2 px-4 rounded-lg transition duration-200"
+                        >
+                            {loading ? "Logging in..." : "Login"}
+                        </button>
+                        {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
+                    </div>
 
-            <input
-                type="password"
-                placeholder="Password"
-                {...register("password",{required:"Password is required"})}
-            />
-            {errors.password && <p>{errors.password.message}</p>}
+                    <div className="mb-3 text-center">
+                        <a href="/register" className="text-indigo-900 hover:text-indigo-700 underline text-sm">Don't have an account? Register</a>
+                    </div>
+                    <div className="text-center">
+                        <a href="/forgot-password" className="text-indigo-900 hover:text-indigo-700 underline text-sm">Forgot Password?</a>
+                    </div>
+                </form>
             </div>
-            <div>
-
-            <button type="submit" disabled={loading}>
-                {loading ? "Logging in..." : "Login"}
-            </button>
-            {error && <p>{error}</p>}
-            </div>
-
-            <div>
-                <a href="/register">Don't have an account? Register</a>
-            </div>
-            <div>
-                <a href="/forgot-password">Forgot Password?</a>
-            </div>
-        </form>
+        // </div>
     );
 }
-
