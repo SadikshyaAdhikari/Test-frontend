@@ -3,6 +3,7 @@ import { Navbar } from './Navbar.jsx';
 
 //import button from shadcn ui
 import { Button} from "@components/ui/button"
+import { Alert } from "@components/ui/alert"
 export function Home() {
   return (
     <div className="flex flex-col min-h-screen w-full bg-gradient-to-br from-blue-50 to-indigo-100">
