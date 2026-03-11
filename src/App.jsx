@@ -6,6 +6,7 @@ import { Register } from './auth/pages/Register.jsx'
 import { ForgotPassword } from './auth/pages/ForgotPassword.jsx';
 import { VerifyOtp } from './auth/pages/VerifyOtp.jsx';
 import { ResetPassword } from './auth/pages/ResetPassword.jsx';
+import { Dashboard } from './auth/pages/Dashboard.jsx';
 
 
 import './App.css'
@@ -20,6 +21,7 @@ function App() {
         <Route path="/forgot-password" element ={<ForgotPassword/>}/>
         <Route path="/verify-otp" element ={<VerifyOtp/>}/>
         <Route path="/reset-password/:resetToken" element ={<ResetPassword/>}/>
+        <Route path="/dashboard" element ={<Dashboard/>}/>
 
         
 

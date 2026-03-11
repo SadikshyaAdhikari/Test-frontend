@@ -2,6 +2,8 @@ import React from 'react'
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useState } from "react";
+import { useNavigate } from 'react-router-dom';
+
 
 export function Login (){
     const {
@@ -12,6 +14,7 @@ export function Login (){
 
       const[loading,setLoading]=useState(false);
       const[error,setError]=useState("");
+      const nav = useNavigate();
 
         const onSubmit=async(data)=>{
             setLoading(true);
@@ -24,6 +27,9 @@ export function Login (){
                 );
                 console.log("Login success:",res.data);
                 alert("Logged in successfully!");
+                //  const user = await fetchCurrentUser();
+                // console.log("Logged in user details:", user);
+                nav(`/dashboard`);
             }catch(err){
                 setError(err.response?.data?.error || "Login failed");
             }finally{
@@ -62,6 +68,14 @@ export function Login (){
                             {loading ? "Logging in..." : "Login"}
                         </button>
                         {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
+                    </div>
+
+                    <div>
+                        <a
+                            href="http://localhost:3000/auth/google"
+                             className="w-full flex items-center justify-center bg-red-400 text-white py-2 rounded-lg hover:bg-red-600 transition"
+>                            Login with Google
+                        </a>
                     </div>
 
                     <div className="mb-3 text-center">
