@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 
 
 export function Login (){
@@ -15,6 +16,25 @@ export function Login (){
       const[loading,setLoading]=useState(false);
       const[error,setError]=useState("");
       const nav = useNavigate();
+
+       useEffect(()=>{
+        const checkUser = async ()=>{
+            try{
+                const res = await axios.get(
+                    `${import.meta.env.VITE_API_BASE_URL}/api/auth/current-user`,
+                    { withCredentials:true }
+                );
+
+                if(res.data){
+                    nav("/dashboard");
+                }
+            }catch(err){
+                console.log("User not logged in");
+            }
+        };
+
+        checkUser();
+    },[]);
 
         const onSubmit=async(data)=>{
             setLoading(true);

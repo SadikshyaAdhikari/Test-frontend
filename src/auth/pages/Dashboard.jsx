@@ -55,10 +55,28 @@
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export function Dashboard() {
 
   const { register, setValue } = useForm();
+  const nav = useNavigate();
+     useEffect(()=>{
+        const checkUser = async ()=>{
+            try{
+                const res = await axios.get(
+                    `${import.meta.env.VITE_API_BASE_URL}/api/auth/current-user`,
+                    { withCredentials:true }
+                );
+                
+            }catch(err){
+                console.log("User not logged in");
+                nav("/login");
+            }
+        };
+
+        checkUser();
+    },[]);
 
   useEffect(() => {
 
@@ -76,6 +94,7 @@ export function Dashboard() {
         setValue("name", u.username);
         setValue("email", u.email);
 
+
       } catch (err) {
         console.error("failed to load user details", err);
       }
@@ -84,6 +103,8 @@ export function Dashboard() {
     load();
 
   }, [setValue]);
+
+
 
   return (
     <div>
