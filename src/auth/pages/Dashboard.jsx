@@ -13,7 +13,7 @@
 
 //   useEffect(() => {
 //     console.log('Dashboard loaded with id:', id);
-    
+
 //     if (!id) return;
 //     async function load() {
 //       try {
@@ -25,7 +25,7 @@
 //         const u = res.data;
 //         setValue('name', u.user.username);
 //         setValue('email', u.user.email);
-        
+
 //       } catch (err) {
 //         console.error('failed to load user details', err);
 //       }
@@ -46,7 +46,7 @@
 //           <label>Email:</label>
 //           <input type="text" {...register('email')} readOnly />
 //         </div>
-    
+
 //       </form>
 //     </div>
 //   );
@@ -61,22 +61,22 @@ export function Dashboard() {
 
   const { register, setValue } = useForm();
   const nav = useNavigate();
-     useEffect(()=>{
-        const checkUser = async ()=>{
-            try{
-                const res = await axios.get(
-                    `${import.meta.env.VITE_API_BASE_URL}/api/auth/current-user`,
-                    { withCredentials:true }
-                );
-                
-            }catch(err){
-                console.log("User not logged in");
-                nav("/login");
-            }
-        };
+  useEffect(() => {
+    const checkUser = async () => {
+      try {
+        const res = await axios.get(
+          `${import.meta.env.VITE_API_BASE_URL}/api/auth/current-user`,
+          { withCredentials: true }
+        );
 
-        checkUser();
-    },[]);
+      } catch (err) {
+        console.log("User not logged in");
+        nav("/login");
+      }
+    };
+
+    checkUser();
+  }, []);
 
   useEffect(() => {
 
@@ -122,6 +122,29 @@ export function Dashboard() {
           <label>Email:</label>
           <input type="text" {...register("email")} readOnly />
         </div>
+
+        <div>
+          <button
+            onClick={async () => {
+              try {
+                await axios.post(
+                  `${import.meta.env.VITE_API_BASE_URL}/api/auth/logout`,
+                  {},
+                  { withCredentials: true }
+                );
+                alert("Logged out successfully!");
+                nav("/login");
+              } catch (err) {
+                console.error("Logout failed", err);
+                alert("Logout failed");
+              }
+            }}
+            className="mt-4 bg-red-400 text-white px-4 py-2 rounded"
+          >
+            Logout
+          </button>
+        </div>
+
       </form>
     </div>
   );
