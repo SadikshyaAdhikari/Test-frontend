@@ -132,7 +132,7 @@ export function Dashboard() {
                   {},
                   { withCredentials: true }
                 );
-                alert("Logged out successfully!");
+                // alert("Logged out successfully!");
                 nav("/login");
               } catch (err) {
                 console.error("Logout failed", err);
