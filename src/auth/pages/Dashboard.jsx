@@ -56,6 +56,7 @@ import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { Navbar } from "./Navbar.jsx";
 
 export function Dashboard() {
 
@@ -108,6 +109,22 @@ export function Dashboard() {
 
   return (
     <div>
+    <Navbar
+  isLoggedIn={true}
+  onLogout={async () => {
+    try {
+      await axios.post(
+        `${import.meta.env.VITE_API_BASE_URL}/api/auth/logout`,
+        {},
+        { withCredentials: true }
+      );
+      nav("/login");
+    } catch (err) {
+      console.error("Logout failed", err);
+      alert("Logout failed");
+    }
+  }}
+/>
       <h2>My details</h2>
 
       <form>
@@ -122,29 +139,6 @@ export function Dashboard() {
           <label>Email:</label>
           <input type="text" {...register("email")} readOnly />
         </div>
-
-        <div>
-          <button
-            onClick={async () => {
-              try {
-                await axios.post(
-                  `${import.meta.env.VITE_API_BASE_URL}/api/auth/logout`,
-                  {},
-                  { withCredentials: true }
-                );
-                // alert("Logged out successfully!");
-                nav("/login");
-              } catch (err) {
-                console.error("Logout failed", err);
-                alert("Logout failed");
-              }
-            }}
-            className="mt-4 bg-red-400 text-white px-4 py-2 rounded"
-          >
-            Logout
-          </button>
-        </div>
-
       </form>
     </div>
   );
