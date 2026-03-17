@@ -3,12 +3,14 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { GoogleLogin } from "@react-oauth/google";
+import { useAuth } from "../../lib/AuthContext.jsx";
 
 export function Login() {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const nav = useNavigate();
+  const { login } = useAuth();
 
   // Check if user is already logged in
   useEffect(() => {
@@ -39,7 +41,7 @@ export function Login() {
         { withCredentials: true }
       );
       console.log("Login success:", res.data);
-    //   alert("Logged in successfully!");
+      login(res.data.user);
       nav("/dashboard");
     } catch (err) {
       setError(err.response?.data?.error || "Login failed");
