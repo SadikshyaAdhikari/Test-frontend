@@ -52,16 +52,19 @@
 //   );
 // }
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Navbar } from "./Navbar.jsx";
+import Feed from '../../components/Feed.jsx';
+import CreatePost from "../../components/CreatePost.jsx";
 
 export function Dashboard() {
 
   const { register, setValue } = useForm();
   const nav = useNavigate();
+  const [user, setUser] = useState(null);
   useEffect(() => {
     const checkUser = async () => {
       try {
@@ -92,6 +95,7 @@ export function Dashboard() {
 
         const u = res.data.user;
 
+        setUser(u);
         setValue("name", u.username);
         setValue("email", u.email);
 
@@ -109,22 +113,22 @@ export function Dashboard() {
 
   return (
     <div>
-    <Navbar
-  isLoggedIn={true}
-  onLogout={async () => {
-    try {
-      await axios.post(
-        `${import.meta.env.VITE_API_BASE_URL}/api/auth/logout`,
-        {},
-        { withCredentials: true }
-      );
-      nav("/login");
-    } catch (err) {
-      console.error("Logout failed", err);
-      alert("Logout failed");
-    }
-  }}
-/>
+      <Navbar
+        isLoggedIn={true}
+        onLogout={async () => {
+          try {
+            await axios.post(
+              `${import.meta.env.VITE_API_BASE_URL}/api/auth/logout`,
+              {},
+              { withCredentials: true }
+            );
+            nav("/login");
+          } catch (err) {
+            console.error("Logout failed", err);
+            alert("Logout failed");
+          }
+        }}
+      />
       <h2>My details</h2>
 
       <form>
@@ -140,6 +144,9 @@ export function Dashboard() {
           <input type="text" {...register("email")} readOnly />
         </div>
       </form>
+      <br />
+      <CreatePost currentUser={user} />
+      <Feed currentUser={user} />
     </div>
   );
 }
