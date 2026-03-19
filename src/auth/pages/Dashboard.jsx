@@ -12,6 +12,8 @@ export function Dashboard() {
   const { register, setValue } = useForm();
   const nav = useNavigate();
   const [user, setUser] = useState(null);
+  const [page, setPage] = useState(1);
+
   useEffect(() => {
     const checkUser = async () => {
       try {
@@ -97,7 +99,19 @@ export function Dashboard() {
         Go to Profile
       </Link>
       <CreatePost currentUser={user} />
-      <Feed currentUser={user} />
+      <Feed currentUser={user} page={page} />
+     {/* <div className="flex justify-between mt-4">
+        <button
+          onClick={() => setPage(prev => Math.max(prev-1, 1))}
+          disabled={page === 1}
+        >
+          Prev
+        </button>
+
+        <button onClick={() => setPage(page + 1)}>
+          Next
+        </button>
+      </div>  */}
     </div>
   );
 }
