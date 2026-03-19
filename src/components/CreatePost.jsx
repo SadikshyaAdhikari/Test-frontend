@@ -48,7 +48,7 @@ export default function CreatePost({ currentUser }) {
         onChange={(e) => setFile(e.target.files[0])}
       />
 
-      <button type="submit" className="bg-blue-500 text-white px-4 py-2 mt-2">
+      <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded mt-2">
         Post
       </button>
     </form>
