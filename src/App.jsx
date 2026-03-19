@@ -11,6 +11,7 @@ import { Post } from './components/Post.jsx';
 
 
 import './App.css'
+import { Profile } from './auth/pages/Profile.jsx';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <Route path="/reset-password/:resetToken" element={<ResetPassword />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/posts" element={<Post />} />
+        <Route path="/profile" element={<Profile />} />
       </Routes>
     </Router>
   )
