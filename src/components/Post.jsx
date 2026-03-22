@@ -16,6 +16,8 @@ export function Post({ post, currentUser }) {
     const [editText, setEditText] = useState(post.text);
     const [editMedia, setEditMedia] = useState(null);
 
+    const [showMenu, setShowMenu] = useState(false);
+
     const fetchComments = async () => {
         try {
             const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/${post.id}/comments`, {
@@ -129,7 +131,7 @@ export function Post({ post, currentUser }) {
             </div>
 
             {/* Show delete button only if it's user's own post */}
-            {currentUser?.id === post.user_id && (
+            {/* {currentUser?.id === post.user_id && (
                 <div className="flex justify-end">
                     <button
                         onClick={handlePostDelete}
@@ -146,7 +148,44 @@ export function Post({ post, currentUser }) {
                     </button>
 
                 </div>
+            )} */}
+
+
+            {currentUser?.id === post.user_id && (
+                <div className="relative flex justify-end">
+                    <button
+                        onClick={() => setShowMenu(prev => !prev)}
+                        className="text-gray-500 text-xl font-bold p-1 hover:bg-gray-200 rounded"
+                    >
+                        ⋮
+                    </button>
+
+                    {showMenu && (
+                        <div className="absolute right-0 mt-2 w-24 bg-white border rounded shadow-lg z-10">
+                            <button
+                                onClick={() => {
+                                    setIsEditing(true);
+                                    setShowMenu(false);
+                                }}
+                                className="w-full text-left px-4 py-2 hover:bg-gray-100 text-sm"
+                            >
+                                Edit
+                            </button>
+                            <button
+                                onClick={() => {
+                                    handlePostDelete();
+                                    setShowMenu(false);
+                                }}
+                                className="w-full text-left px-4 py-2 hover:bg-gray-100 text-sm text-red-500"
+                            >
+                                Delete
+                            </button>
+                        </div>
+                    )}
+                </div>
             )}
+
+
 
             {/* <div className="flex justify-start">
                 {post.text && <p>{post.text}</p>}
