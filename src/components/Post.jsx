@@ -12,6 +12,10 @@ export function Post({ post, currentUser }) {
     const [comments, setComments] = useState([]);
     const [username, setUsername] = useState("Loading...");
 
+    const [isEditing, setIsEditing] = useState(false);
+    const [editText, setEditText] = useState(post.text);
+    const [editMedia, setEditMedia] = useState(null);
+
     const fetchComments = async () => {
         try {
             const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/${post.id}/comments`, {
@@ -36,9 +40,34 @@ export function Post({ post, currentUser }) {
                     Authorization: `Bearer ${currentUser.token}`
                 }
             });
-            // Optionally, you can trigger a refresh of the post list here
         } catch (err) {
             console.error("Failed to delete post:", err);
+        }
+    };
+
+    const handleEditPost = async (e) => {
+        e.preventDefault();
+
+        try {
+            const formData = new FormData();
+
+            if (editText !== undefined) formData.append("text", editText);
+            if (editMedia) formData.append("media", editMedia);
+
+            const res = await axios.put(
+                `${import.meta.env.VITE_API_BASE_URL}/api/edit/${post.id}`,
+                formData,
+                {
+                    withCredentials: true
+                }
+            );
+
+            setIsEditing(false);
+            post.text = res.data.text;
+            post.media_url = res.data.media_url;
+
+        } catch (err) {
+            console.error("Failed to edit post:", err);
         }
     };
 
@@ -96,23 +125,31 @@ export function Post({ post, currentUser }) {
             <div className="text-sm text-left text-gray-700 mb-2">
                 <strong>{username}</strong>
                 <br />
-                 {post.created_at && new Date(post.created_at).toLocaleString()}
+                {post.created_at && new Date(post.created_at).toLocaleString()}
             </div>
 
-                {/* Show delete button only if it's user's own post */}
+            {/* Show delete button only if it's user's own post */}
             {currentUser?.id === post.user_id && (
                 <div className="flex justify-end">
-                <button 
-                    onClick={handlePostDelete}
-                    className="text-red-500 text-xs mb-2"
-                >
-                    Delete Post
-                </button>
+                    <button
+                        onClick={handlePostDelete}
+                        className="text-red-500 text-xs mb-2"
+                    >
+                        Delete
+                    </button>
+                    <span className="mx-1">|</span>
+                    <button
+                        onClick={() => setIsEditing(true)}
+                        className="text-blue-500 text-xs mb-2"
+                    >
+                        Edit
+                    </button>
+
                 </div>
             )}
 
-            <div className="flex justify-start">
-            {post.text && <p>{post.text}</p>}
+            {/* <div className="flex justify-start">
+                {post.text && <p>{post.text}</p>}
             </div>
 
             {post.media_url && (
@@ -120,7 +157,51 @@ export function Post({ post, currentUser }) {
                     src={`${import.meta.env.VITE_API_BASE_URL}${post.media_url}`}
                     className="my-2 max-h-96 w-full object-contain"
                 />
+            )} */}
+
+            {isEditing ? (
+                <form onSubmit={handleEditPost} className="mt-2">
+                    <textarea
+                        value={editText}
+                        onChange={(e) => setEditText(e.target.value)}
+                        className="border p-2 w-full"
+                    />
+
+                    <input
+                        type="file"
+                        onChange={(e) => setEditMedia(e.target.files[0])}
+                        className="mt-2"
+                    />
+
+                    <div className="flex gap-2 mt-2">
+                        <button type="submit" className="bg-green-500 text-white px-3 py-1">
+                            Save
+                        </button>
+
+                        <button
+                            type="button"
+                            onClick={() => setIsEditing(false)}
+                            className="bg-gray-400 text-white px-3 py-1"
+                        >
+                            Cancel
+                        </button>
+                    </div>
+                </form>
+            ) : (
+                <>
+                    <div className="flex justify-start">
+                        {post.text && <p>{post.text}</p>}
+                    </div>
+
+                    {post.media_url && (
+                        <img
+                            src={`${import.meta.env.VITE_API_BASE_URL}${post.media_url}`}
+                            className="my-2 max-h-96 w-full object-contain"
+                        />
+                    )}
+                </>
             )}
+
 
             <div className="flex gap-4 mt-2">
                 <button onClick={toggleLike}>
@@ -129,7 +210,6 @@ export function Post({ post, currentUser }) {
                 <button onClick={fetchComments}>
                     💬 {post.comment_count}
                 </button>
-                {/* <span>💬 {post.comment_count}</span> */}
 
             </div>
 
