@@ -74,6 +74,27 @@ export function Post({ post, currentUser }) {
     };
 
 
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const MAX_SIZE = 5 * 1024 * 1024; //5mb
+        if (file.size > MAX_SIZE) {
+            alert("File size must be less than 5MB");
+            return;
+        }
+
+        const allowedTypes = ["image/jpeg", "image/png", "video/mp4"];
+
+        if (!allowedTypes.includes(file.type)) {
+            alert("Only JPG, PNG, and MP4 files are allowed");
+            return;
+        }
+
+        setEditMedia(file);
+    }
+
+
     const fetchUserName = async (userId) => {
         try {
             const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/auth/user/${userId}`, {
@@ -208,7 +229,7 @@ export function Post({ post, currentUser }) {
 
                     <input
                         type="file"
-                        onChange={(e) => setEditMedia(e.target.files[0])}
+                        onChange={handleFileChange}
                         className="mt-2"
                     />
 
