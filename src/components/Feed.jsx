@@ -38,6 +38,8 @@ export default function Feed({ currentUser, userId }) {
   }, [userId, page, limit]); // Re-fetch when page changes
 
   return (
+    
+
     <div className="max-w-xl mx-auto mt-6">
       {loading && <p className="text-center">Loading posts...</p>}
 
@@ -73,4 +75,4 @@ export default function Feed({ currentUser, userId }) {
       )}
     </div>
   );
-}6
+}
