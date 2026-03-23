@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { Navbar } from "./Navbar.jsx";
 import Feed from '../../components/Feed.jsx';
 import CreatePost from "../../components/CreatePost.jsx";
+import SearchPosts from "../../components/SearchPosts.jsx";
 import { Link } from "react-router-dom";
 
 export function Dashboard() {
@@ -99,6 +100,7 @@ export function Dashboard() {
         Go to Profile
       </Link>
       <CreatePost currentUser={user} />
+      <SearchPosts />
       <Feed currentUser={user} page={page} />
      {/* <div className="flex justify-between mt-4">
         <button
