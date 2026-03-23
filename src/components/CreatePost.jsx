@@ -1,36 +1,68 @@
 import { useState } from "react";
 import axios from "axios";
 
-export default function CreatePost({ currentUser }) {
+export default function CreatePost({ currentUser, onPostCreated }) {
   const [text, setText] = useState("");
   const [file, setFile] = useState(null);
 
+  // Handle file selection
+  const handleFileChange = (e) => {
+    const selectedFile = e.target.files[0];
+    if (!selectedFile) return;
+
+    const MAX_SIZE = 5 * 1024 * 1024; // 5MB
+    if (selectedFile.size > MAX_SIZE) {
+      alert("File size must be less than 5MB");
+      return;
+    }
+
+    const allowedTypes = ["image/jpeg", "image/png", "video/mp4"];
+    if (!allowedTypes.includes(selectedFile.type)) {
+      alert("Only JPG, PNG, and MP4 files are allowed");
+      return;
+    }
+
+    setFile(selectedFile); 
+  };
+
+  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!text && !file) {
+      alert("Post cannot be empty");
+      return;
+    }
+
     const formData = new FormData();
-    formData.append("text", text);        //text
+    formData.append("text", text);
     if (file) {
-      formData.append("media", file);     //file
+      formData.append("media", file);
     }
 
     try {
-      await axios.post(
+      const response = await axios.post(
         `${import.meta.env.VITE_API_BASE_URL}/api/create`,
         formData,
         {
           withCredentials: true,
           headers: {
-            Authorization: `Bearer ${currentUser.token}`
-          }
+            Authorization: `Bearer ${currentUser.token}`,
+          },
         }
       );
 
+      // Clear form
       setText("");
       setFile(null);
+
+      // Notify parent to refresh posts
+      if (onPostCreated) onPostCreated();
+
       alert("Post created!");
     } catch (err) {
       console.error(err);
+      alert(err.response?.data?.message || "Failed to create post");
     }
   };
 
@@ -45,10 +77,15 @@ export default function CreatePost({ currentUser }) {
 
       <input
         type="file"
-        onChange={(e) => setFile(e.target.files[0])}
+        accept="image/jpeg, image/png, video/mp4"
+        onChange={handleFileChange}
+        className="mb-2"
       />
 
-      <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded mt-2">
+      <button
+        type="submit"
+        className="bg-blue-500 text-white px-4 py-2 rounded mt-2"
+      >
         Post
       </button>
     </form>
