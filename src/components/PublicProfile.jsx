@@ -5,7 +5,7 @@ import Feed from './Feed.jsx';
 
 
 export function PublicProfile() {
-  const { userId } = useParams();   
+  const { userId } = useParams();
 
   const [user, setUser] = useState(null);
   const [posts, setPosts] = useState([]);
@@ -39,8 +39,8 @@ export function PublicProfile() {
 
       <h3>User Posts</h3>
 
-      <Feed currentUser={user} userId={user?.id} />
-      
+<Feed currentUser={{id: userId}} userId={userId} />
+
     </div>
   );
 }

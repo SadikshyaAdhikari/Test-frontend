@@ -8,6 +8,8 @@ export function Post({ post, currentUser }) {
 
     if (!post) return null;
 
+    const owner = currentUser?.id === post.user_id;
+
     const [liked, setLiked] = useState(post?.liked_by_user || false);
     const [likes, setLikes] = useState(parseInt(post?.like_count) || 0);
     const [comments, setComments] = useState([]);
@@ -147,7 +149,10 @@ export function Post({ post, currentUser }) {
     return (
         <div className="border p-4 rounded mb-4 shadow">
             <div className="text-sm text-left text-gray-700 mb-2">
-                <Link to={`/users/${post.user_id}`}>
+                {/* <Link to={`/users/${post.user_id}`}>
+                    {username}
+                </Link> */}
+                <Link to={owner ? `/profile` : `/users/${post.user_id}`}>
                     {username}
                 </Link>
                 <br />
@@ -184,7 +189,7 @@ export function Post({ post, currentUser }) {
                         ⋮
                     </button>
 
-                {showMenu && (
+                    {showMenu && (
                         <div className="absolute right-0 mt-2 w-24 bg-white border rounded shadow-lg z-10">
                             <button
                                 onClick={() => {
