@@ -1,8 +1,10 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-export default function Comment({ comment, currentUser, fetchComments }) {
+export default function Comment({ comment, currentUser, fetchComments, postOwnerId }) {
     const [username, setUsername] = useState("Loading...");
+
+    const canDelete = currentUser?.id === comment.user_id || currentUser?.id === postOwnerId;
 
     const handleDelete = async () => {
         try {
@@ -48,8 +50,16 @@ export default function Comment({ comment, currentUser, fetchComments }) {
             </div>
 
             {/* Show delete only if it's user's own comment  */}
-            {currentUser?.id === comment.user_id && (
+            {/* {currentUser?.id === comment.user_id && (
                 <button
+                    onClick={handleDelete}
+                    className="text-red-500 text-xs ml-2"
+                >
+                    Delete
+                </button>
+            )} */}
+            {canDelete && (
+                 <button
                     onClick={handleDelete}
                     className="text-red-500 text-xs ml-2"
                 >

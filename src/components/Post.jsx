@@ -286,6 +286,7 @@ export function Post({ post, currentUser }) {
                 comments={comments}
                 currentUser={currentUser}
                 fetchComments={fetchComments}
+                postOwnerId={post.user_id}
             />
 
             <CommentForm

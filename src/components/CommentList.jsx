@@ -1,6 +1,6 @@
 import Comment from "./Comment";
 
-export default function CommentList({ comments, currentUser, fetchComments }) {
+export default function CommentList({ comments, currentUser, fetchComments, postOwnerId }) {
     return (
         <div className="mt-2 pl-4">
             {comments.map(comment => (
@@ -9,6 +9,7 @@ export default function CommentList({ comments, currentUser, fetchComments }) {
                     comment={comment}
                     currentUser={currentUser}
                     fetchComments={fetchComments}
+                    postOwnerId={postOwnerId}
                 />
             ))}
         </div>
