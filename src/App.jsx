@@ -8,6 +8,7 @@ import { VerifyOtp } from './auth/pages/VerifyOtp.jsx';
 import { ResetPassword } from './auth/pages/ResetPassword.jsx';
 import { Dashboard } from './auth/pages/Dashboard.jsx';
 import { Post } from './components/Post.jsx';
+import { PublicProfile } from './components/PublicProfile.jsx';
 
 
 import './App.css'
@@ -26,9 +27,14 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/posts" element={<Post />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/users/:userId" element={<PublicProfile />} />
       </Routes>
     </Router>
   )
 }
 
 export default App
+
+
+
+
