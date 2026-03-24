@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import CommentList from "./CommentList";
 import CommentForm from "./CommentForm";
+import { Link } from "react-router-dom";
 
 export function Post({ post, currentUser }) {
 
@@ -146,7 +147,9 @@ export function Post({ post, currentUser }) {
     return (
         <div className="border p-4 rounded mb-4 shadow">
             <div className="text-sm text-left text-gray-700 mb-2">
-                <strong>{username}</strong>
+                <Link to={`/users/${post.user_id}`}>
+                    {username}
+                </Link>
                 <br />
                 {post.created_at && new Date(post.created_at).toLocaleString()}
             </div>
@@ -181,7 +184,7 @@ export function Post({ post, currentUser }) {
                         ⋮
                     </button>
 
-                    {showMenu && (
+                {showMenu && (
                         <div className="absolute right-0 mt-2 w-24 bg-white border rounded shadow-lg z-10">
                             <button
                                 onClick={() => {
@@ -259,6 +262,7 @@ export function Post({ post, currentUser }) {
                             className="my-2 max-h-96 w-full object-contain"
                         />
                     )}
+
                 </>
             )}
 
@@ -284,6 +288,8 @@ export function Post({ post, currentUser }) {
                 fetchComments={fetchComments}
                 currentUser={currentUser}
             />
+
+
         </div>
     );
 }
