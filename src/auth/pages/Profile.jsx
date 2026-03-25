@@ -6,7 +6,6 @@ import { useNavigate } from "react-router-dom";
 import { Navbar } from "./Navbar.jsx";
 import Feed from '../../components/Feed.jsx';
 import { Link } from "react-router-dom";
-import CreatePost from "../../components/CreatePost.jsx";
 
 export function Profile() {
 
@@ -72,13 +71,15 @@ export function Profile() {
             <div className="flex justify-end">
                 <Link to="/dashboard" className="text-gray-500 px-3 py-2 rounded-md text-sm font-medium">Back</Link>
             </div>
-            
+
+
             <div className="max-w-xl mx-auto mt-6">
                 <h2 className="text-2xl font-bold mb-4">My Profile</h2>
                 <div className="bg-white p-4 rounded shadow mb-6">
                     <p><strong>Username:</strong> {user?.username}</p>
                     <p><strong>Email:</strong> {user?.email}</p>
                 </div>
+
                 <h3 className="text-xl font-bold mb-2">My Posts</h3>
                 <Feed currentUser={user} userId={user?.id} />
 
