@@ -1,36 +1,58 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-export default function EditPost({ post, onUpdate }) {
-    const [text, setText] = useState(post.text);
-    const [media, setMedia] = useState(null);
+export default function EditPost({ post, onUpdate, onCancel }) {
+  const [text, setText] = useState(post.text);
+  const [media, setMedia] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
 
-  const formData = new FormData();
+    const MAX_SIZE = 5 * 1024 * 1024;
+    if (file.size > MAX_SIZE) {
+      alert("File must be less than 5MB");
+      return;
+    }
 
-  if (text !== undefined) formData.append("text", text);
-  if (media) formData.append("media", media);
+    const allowedTypes = ["image/jpeg", "image/png", "video/mp4"];
+    if (!allowedTypes.includes(file.type)) {
+      alert("Only JPG, PNG, MP4 allowed");
+      return;
+    }
 
-  try {
-    const res = await axios.put(
-      `http://localhost:3000/api/edit/${post.id}`,
-      formData,
-      {
-        withCredentials: true, 
-      }
-    );
+    setMedia(file);
+  };
 
-    onUpdate(res.data);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  } catch (err) {
-    console.error(err.response?.data || err.message);
-  }
-};
+    const formData = new FormData();
 
-return (
+    if (text.trim() !== "") formData.append("text", text);
+    if (media) formData.append("media", media);
+
+    try {
+      setLoading(true);
+
+      const res = await axios.put(
+        `${import.meta.env.VITE_API_BASE_URL}/api/edit/${post.id}`,
+        formData,
+        { withCredentials: true }
+      );
+
+      onUpdate(res.data); // update parent state
+    } catch (err) {
+      console.error(err.response?.data || err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
     <form onSubmit={handleSubmit} className="p-4 border rounded">
+      
       {/* Text */}
       <textarea
         value={text}
@@ -41,13 +63,28 @@ return (
       {/* File */}
       <input
         type="file"
-        onChange={(e) => setMedia(e.target.files[0])}
+        onChange={handleFileChange}
         className="mt-2"
       />
 
-      <button type="submit" className="bg-blue-500 text-white px-4 py-2 mt-2">
-        Update Post
-      </button>
+      {/* Buttons */}
+      <div className="flex gap-2 mt-2">
+        <button
+          type="submit"
+          disabled={loading}
+          className="bg-blue-500 text-white px-4 py-2"
+        >
+          {loading ? "Updating..." : "Update"}
+        </button>
+
+        <button
+          type="button"
+          onClick={onCancel}
+          className="bg-gray-400 text-white px-4 py-2"
+        >
+          Cancel
+        </button>
+      </div>
     </form>
   );
 }
