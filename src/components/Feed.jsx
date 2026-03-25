@@ -5,71 +5,84 @@ import { Post } from "./Post";
 export default function Feed({ currentUser, userId }) {
   const [posts, setPosts] = useState([]);
   const [page, setPage] = useState(1);
-  const [limit] = useState(5); // posts per page
+  const limit = 5;
   const [loading, setLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(true); // track next page
+  const [error, setError] = useState(null);
+
+  // Reset when switching user/profile
+  useEffect(() => {
+    setPosts([]);
+    setPage(1);
+    setHasMore(true);
+  }, [userId]);
 
   useEffect(() => {
     const fetchPosts = async () => {
-      setLoading(true);
-      try {
-        let url;
+      if (!hasMore) return;
 
-        if (userId) {
-          // Profile page → specific user's posts
-          url = `${import.meta.env.VITE_API_BASE_URL}/api/user/${userId}/posts?page=${page}&limit=${limit}`;
-        } else {
-          // Home page → all posts with pagination
-          url = `${import.meta.env.VITE_API_BASE_URL}/api/posts?page=${page}&limit=${limit}`;
-        }
+      setLoading(true);
+      setError(null);
+
+      try {
+        let url = userId
+          ? `${import.meta.env.VITE_API_BASE_URL}/api/user/${userId}/posts?page=${page}&limit=${limit}`
+          : `${import.meta.env.VITE_API_BASE_URL}/api/posts?page=${page}&limit=${limit}`;
 
         const res = await axios.get(url, {
           withCredentials: true,
         });
 
-        // Ensure we always have an array
-        setPosts(Array.isArray(res.data) ? res.data : res.data.posts || []);
+        const newPosts = Array.isArray(res.data)
+          ? res.data
+          : res.data.posts || [];
+
+        // append instead of replace
+        setPosts((prev) => [...prev, ...newPosts]);
+
+        // check if more data exists
+        if (newPosts.length < limit) {
+          setHasMore(false);
+        }
+
       } catch (err) {
         console.error("Failed to fetch posts:", err);
+        setError("Failed to load posts");
       } finally {
         setLoading(false);
       }
     };
 
     fetchPosts();
-  }, [userId, page, limit]);
+  }, [page, userId]);
 
   return (
     <div className="max-w-xl mx-auto mt-6">
-      {loading && <p className="text-center">Loading posts...</p>}
 
-      {!loading && posts.length === 0 && (
-        <p className="text-center text-gray-500">No posts found</p>
-      )}
+      {/* Error */}
+      {error && <p className="text-center text-red-500">{error}</p>}
 
-      {/* Render each post */}
+      {/* Posts */}
       {posts.map((post) => (
         <Post key={post.id} post={post} currentUser={currentUser} />
       ))}
 
-      {/* Pagination controls */}
-      {posts.length > 0 && (
-        <div className="flex justify-between items-center mt-6 mb-6">
-          <button
-            onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
-            disabled={page === 1}
-            className="px-4 py-2 bg-blue-500 text-white rounded disabled:bg-gray-400"
-          >
-            Previous
-          </button>
+      {/* Loading */}
+      {loading && <p className="text-center">Loading...</p>}
 
-          <span className="text-gray-600">Page {page}</span>
+      {/* No posts */}
+      {!loading && posts.length === 0 && (
+        <p className="text-center text-gray-500">No posts found</p>
+      )}
 
+      {/* Load More instead of Next */}
+      {hasMore && !loading && (
+        <div className="flex justify-center mt-6 mb-6">
           <button
             onClick={() => setPage((prev) => prev + 1)}
-            disabled={posts.length < limit} // Disable if fewer posts than limit
-            className="px-4 py-2 bg-blue-500 text-white rounded disabled:bg-gray-400"
+            className="px-4 py-2 bg-blue-500 text-white rounded"
           >
-            Next
+            Load More
           </button>
         </div>
       )}
