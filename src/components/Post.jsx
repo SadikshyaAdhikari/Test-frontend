@@ -17,10 +17,8 @@ export function Post({ post, currentUser, onUpdate }) {
   const [isEditing, setIsEditing] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
 
-  // username state
   const [username, setUsername] = useState("Loading...");
 
-  // Fetch username
   const fetchUserName = async (userId) => {
     try {
       const res = await axios.get(
@@ -34,7 +32,6 @@ export function Post({ post, currentUser, onUpdate }) {
     }
   };
 
-  // Load username safely
   useEffect(() => {
     let isMounted = true;
 
@@ -51,14 +48,12 @@ export function Post({ post, currentUser, onUpdate }) {
     };
   }, [post?.user_id]);
 
-  // Fetch comments
   const fetchComments = async () => {
     try {
       const res = await axios.get(
         `${import.meta.env.VITE_API_BASE_URL}/api/${post.id}/comments`,
         { withCredentials: true }
       );
-    //   setComments(res.data || []);
 
 
      const data = Array.isArray(res.data)
@@ -77,7 +72,6 @@ export function Post({ post, currentUser, onUpdate }) {
     fetchComments();
   }, [post.id]);
 
-  // Delete post
   const handleDelete = async () => {
     if (!window.confirm("Delete this post?")) return;
 
@@ -91,7 +85,6 @@ export function Post({ post, currentUser, onUpdate }) {
     }
   };
 
-  // Like toggle
   const toggleLike = async () => {
     try {
       if (liked) {
@@ -117,7 +110,6 @@ export function Post({ post, currentUser, onUpdate }) {
   return (
     <div className="border p-4 rounded mb-4 shadow">
 
-      {/* HEADER */}
       <div className="text-sm text-gray-700 mb-2">
         <Link to={owner ? "/profile" : `/users/${post.user_id}`}>
           {username}
@@ -126,7 +118,6 @@ export function Post({ post, currentUser, onUpdate }) {
         {new Date(post.created_at).toLocaleString()}
       </div>
 
-      {/* MENU */}
       {owner && (
         <div className="relative flex justify-end">
           <button onClick={() => setShowMenu(!showMenu)}>⋮</button>
@@ -150,7 +141,6 @@ export function Post({ post, currentUser, onUpdate }) {
         </div>
       )}
 
-      {/* CONTENT */}
       {isEditing ? (
         <EditPost
           post={post}
@@ -173,7 +163,6 @@ export function Post({ post, currentUser, onUpdate }) {
         </>
       )}
 
-      {/* ACTIONS */}
       <div className="flex gap-4 mt-2">
         <button onClick={toggleLike}>
           {liked ? "💖" : "🤍"} {likes}
@@ -184,7 +173,6 @@ export function Post({ post, currentUser, onUpdate }) {
         </button>
       </div>
 
-      {/* COMMENTS */}
       <CommentList
         comments={comments}
         currentUser={currentUser}

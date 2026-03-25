@@ -42,7 +42,7 @@ export default function EditPost({ post, onUpdate, onCancel }) {
         { withCredentials: true }
       );
 
-      onUpdate(res.data); // update parent state
+      onUpdate(res.data); 
     } catch (err) {
       console.error(err.response?.data || err.message);
     } finally {
@@ -53,21 +53,18 @@ export default function EditPost({ post, onUpdate, onCancel }) {
   return (
     <form onSubmit={handleSubmit} className="p-4 border rounded">
       
-      {/* Text */}
       <textarea
         value={text}
         onChange={(e) => setText(e.target.value)}
         className="border p-2 w-full"
       />
 
-      {/* File */}
       <input
         type="file"
         onChange={handleFileChange}
         className="mt-2"
       />
 
-      {/* Buttons */}
       <div className="flex gap-2 mt-2">
         <button
           type="submit"

@@ -7,13 +7,11 @@ export default function SearchPosts({ currentUser }) {
   const [results, setResults] = useState([]);
 
   useEffect(() => {
-    // Don't search empty input
     if (!keyword.trim()) {
       setResults([]);
       return;
     }
 
-    // Debounce (wait 500ms after typing stops)
     const delayDebounce = setTimeout(() => {
       searchPosts();
     }, 500);
@@ -39,7 +37,6 @@ export default function SearchPosts({ currentUser }) {
 
   return (
     <div className="p-4">
-      {/* Input */}
       <input
         type="text"
         placeholder="Search posts..."
@@ -48,19 +45,8 @@ export default function SearchPosts({ currentUser }) {
         className="border p-2 rounded w-full"
       />
 
-      {/* Results */}
       <div className="mt-4">
         {keyword && results.length === 0 && <p>No results found</p>}
-
-        {/* {results.map((post) => (
-          <div key={post.id} className="border p-3 mb-2 rounded">
-            <p>{post.text}</p>
-
-            {post.media_url && (
-              <img src={post.media_url} alt="" className="mt-2 w-40" />
-            )}
-          </div>
-        ))} */}
 
         {results.map((post) => (
           <Post

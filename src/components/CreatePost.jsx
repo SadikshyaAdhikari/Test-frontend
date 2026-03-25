@@ -5,7 +5,6 @@ export default function CreatePost({ currentUser, onPostCreated }) {
   const [text, setText] = useState("");
   const [file, setFile] = useState(null);
 
-  // Handle file selection
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
     if (!selectedFile) return;
@@ -25,7 +24,6 @@ export default function CreatePost({ currentUser, onPostCreated }) {
     setFile(selectedFile); 
   };
 
-  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -52,11 +50,9 @@ export default function CreatePost({ currentUser, onPostCreated }) {
         }
       );
 
-      // Clear form
       setText("");
       setFile(null);
 
-      // Notify parent to refresh posts
       if (onPostCreated) onPostCreated();
 
       alert("Post created!");

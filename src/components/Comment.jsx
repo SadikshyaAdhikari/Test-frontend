@@ -14,7 +14,7 @@ export default function Comment({ comment, currentUser, fetchComments, postOwner
                     Authorization: `Bearer ${currentUser.token}`
                 }
             });
-            fetchComments(); // refresh comments after delete
+            fetchComments(); 
         } catch (err) {
             console.error("Failed to delete comment:", err);
         }
@@ -48,16 +48,7 @@ export default function Comment({ comment, currentUser, fetchComments, postOwner
             <div>
                 <strong> {username}:</strong> {comment.text}
             </div>
-
-            {/* Show delete only if it's user's own comment  */}
-            {/* {currentUser?.id === comment.user_id && (
-                <button
-                    onClick={handleDelete}
-                    className="text-red-500 text-xs ml-2"
-                >
-                    Delete
-                </button>
-            )} */}
+            
             {canDelete && (
                  <button
                     onClick={handleDelete}
