@@ -32,11 +32,9 @@ export default function Notifications() {
     const markAsRead = async (id) => {
         try {
             await axios.put(
-                `/api/${id}/read`,
-                {},
-                {
-                    withCredentials: true,
-                }
+                `${import.meta.env.VITE_API_BASE_URL}/api/notifications/${id}/read`,
+                {}, 
+                { withCredentials: true }
             );
             setNotifications((prev) =>
                 prev.map((n) =>
