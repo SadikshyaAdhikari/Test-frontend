@@ -7,10 +7,9 @@ export default function Feed({ currentUser, userId }) {
   const [page, setPage] = useState(1);
   const limit = 5;
   const [loading, setLoading] = useState(false);
-  const [hasMore, setHasMore] = useState(true); // track next page
+  const [hasMore, setHasMore] = useState(true);
   const [error, setError] = useState(null);
 
-  // Reset when switching user/profile
   useEffect(() => {
     setPosts([]);
     setPage(1);
@@ -37,10 +36,8 @@ export default function Feed({ currentUser, userId }) {
           ? res.data
           : res.data.posts || [];
 
-        // append instead of replace
         setPosts((prev) => [...prev, ...newPosts]);
 
-        // check if more data exists
         if (newPosts.length < limit) {
           setHasMore(false);
         }
@@ -59,23 +56,18 @@ export default function Feed({ currentUser, userId }) {
   return (
     <div className="max-w-xl mx-auto mt-6">
 
-      {/* Error */}
       {error && <p className="text-center text-red-500">{error}</p>}
 
-      {/* Posts */}
       {posts.map((post) => (
         <Post key={post.id} post={post} currentUser={currentUser} />
       ))}
 
-      {/* Loading */}
       {loading && <p className="text-center">Loading...</p>}
 
-      {/* No posts */}
       {!loading && posts.length === 0 && (
         <p className="text-center text-gray-500">No posts found</p>
       )}
 
-      {/* Load More instead of Next */}
       {hasMore && !loading && (
         <div className="flex justify-center mt-6 mb-6">
           <button

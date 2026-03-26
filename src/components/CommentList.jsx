@@ -2,7 +2,6 @@ import Comment from "./Comment";
 
 export default function CommentList({ comments, currentUser, fetchComments, postOwnerId }) {
     
-    // ✅ Ensure comments is always an array
     const safeComments = Array.isArray(comments) ? comments : [];
 
     return (
