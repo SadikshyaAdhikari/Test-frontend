@@ -82,7 +82,7 @@ export function Login() {
             placeholder="email"
             className="w-full px-4 py-2 
                bg-[#242526] text-white 
-               border border-white 
+               border border-gray-500
                rounded-2xl
                placeholder-gray-400
                focus:outline-none 
@@ -103,7 +103,7 @@ export function Login() {
             placeholder="Password"
             className="w-full px-4 py-2 
                bg-[#242526] text-white 
-               border border-white 
+               border border-gray-500
                rounded-2xl
                placeholder-gray-400
                focus:outline-none 
@@ -131,40 +131,45 @@ export function Login() {
         </div>
 
         <div className="text-center">
-          <a href="/forgot-password" className="text-white hover:text-indigo-700 text-sm">
+          <a
+            href="/forgot-password"
+            className="text-white text-sm
+               w-full
+               px-4 py-2
+               hover:border
+               hover:border-none
+               transition
+               inline-block"
+          >
             Forgot Password?
           </a>
         </div>
+
         <br />
         <br />
 
 
+        {/* <div className="mb-4 w-full flex justify-center"> <GoogleLogin onSuccess={handleGoogleLogin} onError={() => setError("Google login failed")} /> </div> */}
 
 
         <div className="mb-4 w-full">
-          <button
-            onClick={handleGoogleLogin}
-            className="w-full px-4 py-2
-               bg-[#242526] text-white
-               border border-white
-               rounded-3xl 
-               placeholder-gray-400
-               focus:outline-none 
-               focus:ring-2 focus:ring-indigo-500 
-               focus:border-transparent
-               text-center
-               hover:bg-gray-900
-               transition"
-          >
-            Continue with Google
-          </button>
+          <div className="w-full rounded-lg overflow-hidden">
+            <GoogleLogin
+              onSuccess={handleGoogleLogin}
+              onError={() => setError("Google login failed")}
+              width={380} 
+              shape="pill" 
+              size="large"
+              logo_alignment="center"
+            />
+          </div>
         </div>
 
         <div className="mb-4 w-full">
           <a
             href="/register"
             className="block w-full px-4 py-2 
-               bg-[#1f1f22] text-[#0064e0]
+               bg-[#242526] text-[#0064e0]
                border border-[#0064e0]
                rounded-3xl
                placeholder-gray-400
