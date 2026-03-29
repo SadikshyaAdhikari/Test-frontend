@@ -71,7 +71,7 @@ export function Login() {
   };
 
   return (
-    <div className="bg-[#1f1f22] text-white rounded-lg shadow-lg p-8 w-full max-w-md mx-auto mt-16">
+    <div className="bg-[#242526] text-white rounded-lg shadow-lg p-8 w-full max-w-md mx-auto mt-16">
       <form onSubmit={handleSubmit(onSubmit)}>
         <h2 className="flex justify-start text-xl font-bold text-white mb-6 text-center">Login</h2>
 
@@ -81,12 +81,12 @@ export function Login() {
             type="email"
             placeholder="email"
             className="w-full px-4 py-2 
-               bg-[#1f1f22] text-white 
+               bg-[#242526] text-white 
                border border-white 
-               rounded-lg 
+               rounded-2xl
                placeholder-gray-400
                focus:outline-none 
-               focus:ring-2 focus:ring-indigo-500 
+               focus:ring-1 focus:ring-white
                focus:border-transparent"
             {...register("email", { required: "Email is required" })}
           />
@@ -102,12 +102,12 @@ export function Login() {
             type="password"
             placeholder="Password"
             className="w-full px-4 py-2 
-               bg-[#1f1f22] text-white 
+               bg-[#242526] text-white 
                border border-white 
-               rounded-lg 
+               rounded-2xl
                placeholder-gray-400
                focus:outline-none 
-               focus:ring-2 focus:ring-indigo-500 
+               focus:ring-1 focus:ring-white
                focus:border-transparent"
             {...register("password", { required: "Password is required" })}
           />
@@ -118,11 +118,12 @@ export function Login() {
           )}
         </div>
 
+
         <div className="mb-4">
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-indigo-500 hover:bg-indigo-700 disabled:bg-indigo-400 text-white font-semibold py-2 px-4 rounded-lg transition duration-200"
+            className="w-full bg-[#0064e0] hover:bg-[#0064e0] disabled:bg-indigo-400 text-white font-semibold py-2 px-4 rounded-3xl transition duration-200"
           >
             {loading ? "Logging in..." : "Log in"}
           </button>
@@ -130,7 +131,7 @@ export function Login() {
         </div>
 
         <div className="text-center">
-          <a href="/forgot-password" className="text-indigo-900 hover:text-indigo-700 text-sm">
+          <a href="/forgot-password" className="text-white hover:text-indigo-700 text-sm">
             Forgot Password?
           </a>
         </div>
@@ -140,15 +141,38 @@ export function Login() {
 
 
 
-        <div className="mb-4 w-full flex justify-center">
-          <GoogleLogin
-            onSuccess={handleGoogleLogin}
-            onError={() => setError("Google login failed")}
-          />
+        <div className="mb-4 w-full">
+          <button
+            onClick={handleGoogleLogin}
+            className="w-full px-4 py-2
+               bg-[#242526] text-white
+               border border-white
+               rounded-3xl 
+               placeholder-gray-400
+               focus:outline-none 
+               focus:ring-2 focus:ring-indigo-500 
+               focus:border-transparent
+               text-center
+               hover:bg-gray-900
+               transition"
+          >
+            Continue with Google
+          </button>
         </div>
 
-        <div className="mb-3 text-center">
-          <a href="/register" className="w-full px-4 py-2 border border-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+        <div className="mb-4 w-full">
+          <a
+            href="/register"
+            className="block w-full px-4 py-2 
+               bg-[#1f1f22] text-[#0064e0]
+               border border-[#0064e0]
+               rounded-3xl
+               placeholder-gray-400
+               focus:outline-none 
+               focus:ring-2 focus:ring-indigo-500 
+               focus:border-transparent
+               text-center"
+          >
             Create new account
           </a>
         </div>

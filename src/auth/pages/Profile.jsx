@@ -37,7 +37,7 @@ export function Profile() {
                     `${import.meta.env.VITE_API_BASE_URL}/api/auth/current-user`,
                     { withCredentials: true }
                 );
-                console.log("User details loaded:", res.data);
+                
                 const u = res.data.user;
                 setUser(u);
                 setValue("name", u.username);
