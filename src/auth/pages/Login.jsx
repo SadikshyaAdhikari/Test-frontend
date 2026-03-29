@@ -75,21 +75,40 @@ export function Login() {
       <form onSubmit={handleSubmit(onSubmit)}>
         <h2 className="flex justify-start text-xl font-bold text-white mb-6 text-center">Login</h2>
 
-
-        <div className="mb-4">
+        <div className="relative mb-4 w-full">
           <input
             type="email"
-            placeholder="email"
-            className="w-full px-4 py-2 
+            id="email"
+            placeholder=" "
+            className="peer w-full px-4 py-3
                bg-[#242526] text-white 
                border border-gray-500
                rounded-2xl
-               placeholder-gray-400
                focus:outline-none 
-               focus:ring-1 focus:ring-white
+               focus:ring-1 focus:ring-[#0064e0]
                focus:border-transparent"
             {...register("email", { required: "Email is required" })}
           />
+
+          <label
+            htmlFor="email"
+            className="absolute left-4 top-3 text-gray-400 text-base
+             transition-all
+             
+             peer-placeholder-shown:top-3
+             peer-placeholder-shown:text-base
+             
+             peer-focus:top-1
+             peer-focus:text-xs
+             peer-focus:text-[#0064e0]
+
+             peer-[&:not(:placeholder-shown)]:top-1
+             peer-[&:not(:placeholder-shown)]:text-xs
+             peer-[&:not(:placeholder-shown)]:text-[#0064e0]"
+          >
+            Email
+          </label>
+
           {errors.email && (
             <p className="text-red-500 text-sm mt-1">
               {errors.email.message}
@@ -97,20 +116,40 @@ export function Login() {
           )}
         </div>
 
-        <div className="mb-6">
+        <div className="relative mb-6">
           <input
             type="password"
-            placeholder="Password"
-            className="w-full px-4 py-2 
+            id="password"
+            placeholder=" "
+            className="peer w-full px-4 py-3
                bg-[#242526] text-white 
                border border-gray-500
                rounded-2xl
-               placeholder-gray-400
                focus:outline-none 
-               focus:ring-1 focus:ring-white
+                focus:ring-1 focus:ring-[#0064e0]
                focus:border-transparent"
             {...register("password", { required: "Password is required" })}
           />
+         
+          <label
+            htmlFor="password"
+            className="absolute left-4 top-3 text-gray-400 text-base
+             transition-all
+             
+             peer-placeholder-shown:top-3
+             peer-placeholder-shown:text-base
+             
+             peer-focus:top-1
+             peer-focus:text-xs
+             peer-focus:text-[#0064e0]
+
+             peer-[&:not(:placeholder-shown)]:top-1
+             peer-[&:not(:placeholder-shown)]:text-xs
+             peer-[&:not(:placeholder-shown)]:text-[#0064e0]"
+          >
+            Password
+          </label>
+
           {errors.password && (
             <p className="text-red-500 text-sm mt-1">
               {errors.password.message}
@@ -157,8 +196,8 @@ export function Login() {
             <GoogleLogin
               onSuccess={handleGoogleLogin}
               onError={() => setError("Google login failed")}
-              width={380} 
-              shape="pill" 
+              width={380}
+              shape="pill"
               size="large"
               logo_alignment="center"
             />
