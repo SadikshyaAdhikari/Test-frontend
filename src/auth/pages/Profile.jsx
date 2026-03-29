@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { Navbar } from "./Navbar.jsx";
 import Feed from '../../components/Feed.jsx';
 import { Link } from "react-router-dom";
+import AvatarUploader from "@/components/AvatarUploader.jsx";
 
 export function Profile() {
 
@@ -79,9 +80,10 @@ export function Profile() {
                     <p><strong>Username:</strong> {user?.username}</p>
                     <p><strong>Email:</strong> {user?.email}</p>
                 </div>
-
+                 {/* <AvatarUploader /> */}
                 <h3 className="text-xl font-bold mb-2">My Posts</h3>
                 <Feed currentUser={user} userId={user?.id} />
+               
 
             </div>
         </div>

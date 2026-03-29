@@ -43,17 +43,14 @@ export default function CreatePost({ currentUser, onPostCreated }) {
         `${import.meta.env.VITE_API_BASE_URL}/api/create`,
         formData,
         {
-          withCredentials: true,
-          headers: {
-            Authorization: `Bearer ${currentUser.token}`,
-          },
+          withCredentials: true, 
         }
       );
 
       setText("");
       setFile(null);
 
-      if (onPostCreated) onPostCreated();
+      if (onPostCreated);
 
       alert("Post created!");
     } catch (err) {

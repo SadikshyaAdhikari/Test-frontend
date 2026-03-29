@@ -12,7 +12,6 @@ export function Login() {
   const nav = useNavigate();
   const { login } = useAuth();
 
-  // Check if user is already logged in
   useEffect(() => {
     const checkUser = async () => {
       try {
@@ -30,7 +29,6 @@ export function Login() {
     checkUser();
   }, []);
 
-  // Handle email/password login
   const onSubmit = async (data) => {
     setLoading(true);
     setError("");
@@ -50,7 +48,6 @@ export function Login() {
     }
   };
 
-  // Handle Google login
   const handleGoogleLogin = async (credentialResponse) => {
     if (!credentialResponse?.credential) return;
 
@@ -64,7 +61,6 @@ export function Login() {
         { withCredentials: true }
       );
 
-    //   alert("Logged in successfully with Google!");
       nav("/dashboard");
     } catch (err) {
       console.error(err);
@@ -75,66 +71,88 @@ export function Login() {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-md mx-auto mt-16">
+    <div className="bg-[#1f1f22] text-white rounded-lg shadow-lg p-8 w-full max-w-md mx-auto mt-16">
       <form onSubmit={handleSubmit(onSubmit)}>
-        <h2 className="text-3xl font-bold text-gray-900 mb-6 text-center">Login</h2>
+        <h2 className="flex justify-start text-xl font-bold text-white mb-6 text-center">Login</h2>
 
-        {/* Email Input */}
+
         <div className="mb-4">
           <input
             type="email"
-            placeholder="Email"
-            className="w-full px-4 py-2 border border-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+            placeholder="email"
+            className="w-full px-4 py-2 
+               bg-[#1f1f22] text-white 
+               border border-white 
+               rounded-lg 
+               placeholder-gray-400
+               focus:outline-none 
+               focus:ring-2 focus:ring-indigo-500 
+               focus:border-transparent"
             {...register("email", { required: "Email is required" })}
           />
-          {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>}
+          {errors.email && (
+            <p className="text-red-500 text-sm mt-1">
+              {errors.email.message}
+            </p>
+          )}
         </div>
 
-        {/* Password Input */}
         <div className="mb-6">
           <input
             type="password"
             placeholder="Password"
-            className="w-full px-4 py-2 border border-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+            className="w-full px-4 py-2 
+               bg-[#1f1f22] text-white 
+               border border-white 
+               rounded-lg 
+               placeholder-gray-400
+               focus:outline-none 
+               focus:ring-2 focus:ring-indigo-500 
+               focus:border-transparent"
             {...register("password", { required: "Password is required" })}
           />
-          {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>}
+          {errors.password && (
+            <p className="text-red-500 text-sm mt-1">
+              {errors.password.message}
+            </p>
+          )}
         </div>
 
-        {/* Submit Button */}
         <div className="mb-4">
           <button
             type="submit"
             disabled={loading}
             className="w-full bg-indigo-500 hover:bg-indigo-700 disabled:bg-indigo-400 text-white font-semibold py-2 px-4 rounded-lg transition duration-200"
           >
-            {loading ? "Logging in..." : "Login"}
+            {loading ? "Logging in..." : "Log in"}
           </button>
           {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
         </div>
 
-        {/* OR Divider */}
-        <div className="text-center my-4 text-gray-400">OR</div>
+        <div className="text-center">
+          <a href="/forgot-password" className="text-indigo-900 hover:text-indigo-700 text-sm">
+            Forgot Password?
+          </a>
+        </div>
+        <br />
+        <br />
 
-        {/* Google Login */}
-        <div className="mb-4 flex justify-center">
+
+
+
+        <div className="mb-4 w-full flex justify-center">
           <GoogleLogin
             onSuccess={handleGoogleLogin}
             onError={() => setError("Google login failed")}
           />
         </div>
 
-        {/* Links */}
         <div className="mb-3 text-center">
-          <a href="/register" className="text-indigo-900 hover:text-indigo-700 underline text-sm">
-            Don't have an account? Register
+          <a href="/register" className="w-full px-4 py-2 border border-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+            Create new account
           </a>
         </div>
-        <div className="text-center">
-          <a href="/forgot-password" className="text-indigo-900 hover:text-indigo-700 underline text-sm">
-            Forgot Password?
-          </a>
-        </div>
+
       </form>
     </div>
   );
