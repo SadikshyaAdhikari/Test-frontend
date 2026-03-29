@@ -56,11 +56,11 @@ export function Post({ post, currentUser, onUpdate }) {
       );
 
 
-     const data = Array.isArray(res.data)
-      ? res.data
-      : res.data.comments || [];
+      const data = Array.isArray(res.data)
+        ? res.data
+        : res.data.comments || [];
 
-    setComments(data);
+      setComments(data);
 
 
     } catch (err) {
@@ -120,26 +120,34 @@ export function Post({ post, currentUser, onUpdate }) {
 
       {owner && (
         <div className="relative flex justify-end">
-          <button onClick={() => setShowMenu(!showMenu)}>⋮</button>
+          <button onClick={() => setShowMenu((prev) => !prev)}>
+            ⋮
+          </button>
+
 
           {showMenu && (
-            <div className="absolute right-0 bg-white border rounded shadow">
+            <div className="absolute right-0 mt-4 w-32 bg-white border rounded shadow">
               <button
                 onClick={() => {
                   setIsEditing(true);
                   setShowMenu(false);
                 }}
+                className="block w-full text-left px-3 py-2 hover:bg-gray-100"
               >
                 Edit
               </button>
 
-              <button onClick={handleDelete} className="text-red-500">
+              <button
+                onClick={handleDelete}
+                className="block w-full text-left px-3 py-2 text-red-500 hover:bg-gray-100"
+              >
                 Delete
               </button>
             </div>
           )}
         </div>
       )}
+
 
       {isEditing ? (
         <EditPost
