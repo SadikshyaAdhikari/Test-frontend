@@ -6,11 +6,15 @@ import { GoogleLogin } from "@react-oauth/google";
 import { useAuth } from "../../lib/AuthContext.jsx";
 
 export function Login() {
-  const { register, handleSubmit, formState: { errors } } = useForm();
-  const [loading, setLoading] = useState(false);
+const { register, handleSubmit, watch, formState: { errors } } = useForm({ mode: "onChange" });  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const nav = useNavigate();
   const { login } = useAuth();
+
+  const email = watch("email");
+  const password = watch("password");
+
+  const isDisabled = !email || !password || loading;
 
   useEffect(() => {
     const checkUser = async () => {
@@ -130,7 +134,7 @@ export function Login() {
                focus:border-transparent"
             {...register("password", { required: "Password is required" })}
           />
-         
+
           <label
             htmlFor="password"
             className="absolute left-4 top-3 text-gray-400 text-base
@@ -158,25 +162,49 @@ export function Login() {
         </div>
 
 
-        <div className="mb-4">
+
+        {/* <div className="mb-4">
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-[#0064e0] hover:bg-[#0064e0] disabled:bg-indigo-400 text-white font-semibold py-2 px-4 rounded-3xl transition duration-200"
+            className="w-full bg-[#133b6e] hover:bg-[#0064e0] disabled:bg-indigo-400 text-white font-semibold py-2 px-4 rounded-3xl transition duration-200"
           >
             {loading ? "Logging in..." : "Log in"}
           </button>
           {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
-        </div>
+        </div> */}
+
+        <div className="mb-4">
+  <button
+    type="submit"
+    disabled={isDisabled}
+    className={`w-full font-semibold py-2 px-4 rounded-3xl transition
+      ${isDisabled
+        ? "bg-[#133b6e] text-gray-500 border border-gray-600 cursor-not-allowed"
+        : "bg-[#133b6e] text-white hover:bg-[#0064e0] focus:ring-2 focus:ring-[#0064e0]"
+      }`}
+  >
+    {loading ? "Logging in..." : "Log in"}
+  </button>
+
+  {error && (
+    <p className="text-red-500 text-sm mt-2">
+      {error}
+    </p>
+  )}
+</div>
+        
 
         <div className="text-center">
           <a
             href="/forgot-password"
-            className="text-white text-sm
+            className="text-white text-base
                w-full
                px-4 py-2
+               rounded-3xl
                hover:border
                hover:border-none
+               hover:bg-[#35353b]
                transition
                inline-block"
           >
@@ -207,7 +235,7 @@ export function Login() {
         <div className="mb-4 w-full">
           <a
             href="/register"
-            className="block w-full px-4 py-2 
+            className="block w-full px-4 py-2
                bg-[#242526] text-[#0064e0]
                border border-[#0064e0]
                rounded-3xl
@@ -215,7 +243,8 @@ export function Login() {
                focus:outline-none 
                focus:ring-2 focus:ring-indigo-500 
                focus:border-transparent
-               text-center"
+               text-center
+                hover:bg-[#35353b]"
           >
             Create new account
           </a>
