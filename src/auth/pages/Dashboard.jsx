@@ -4,7 +4,6 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Navbar } from "./Navbar.jsx";
 import Feed from '../../components/Feed.jsx';
-import CreatePost from "../../components/CreatePost.jsx";
 import SearchPosts from "../../components/SearchPosts.jsx";
 
 
@@ -80,11 +79,9 @@ export function Dashboard() {
         }}
       />
 
-     
-      <CreatePost currentUser={user} />
       <SearchPosts />
       <Feed currentUser={user} page={page} />
-     
+
     </div>
   );
 }

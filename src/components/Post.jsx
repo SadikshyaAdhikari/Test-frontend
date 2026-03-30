@@ -218,7 +218,7 @@ export function Post({ post, currentUser, onUpdate }) {
 
   const [username, setUsername] = useState("Loading...");
 
-  const [showComments, setShowComments] = useState(false); 
+  const [showComments, setShowComments] = useState(false);
 
   const fetchUserName = async (userId) => {
     try {
@@ -305,7 +305,7 @@ export function Post({ post, currentUser, onUpdate }) {
 
   const handleToggleComments = () => {
     if (!showComments) {
-      fetchComments(); 
+      fetchComments();
     }
     setShowComments((prev) => !prev);
   };
@@ -313,12 +313,14 @@ export function Post({ post, currentUser, onUpdate }) {
   return (
     <div className="border p-4 rounded mb-4 shadow">
 
-      <div className="text-sm text-gray-700 mb-2">
+      <div className="text-base text-gray-700 mb-2 flex flex-col items-start">
         <Link to={owner ? "/profile" : `/users/${post.user_id}`}>
           {username}
         </Link>
-        <br />
-        {new Date(post.created_at).toLocaleString()}
+
+        <span className="text-sm text-gray-500">
+          {new Date(post.created_at).toLocaleString()}
+        </span>
       </div>
 
       {owner && (

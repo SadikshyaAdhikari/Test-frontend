@@ -1,11 +1,11 @@
 import Notifications from '@/components/Notifications';
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom'; 
 import { Bell, User } from 'lucide-react';
-
 
 export function Navbar({ isLoggedIn, onLogout }) {
   const [showNotifications, setShowNotifications] = useState(false);
+  const location = useLocation(); 
 
   return (
     <nav className="bg-gray-800 p-4">
@@ -27,12 +27,14 @@ export function Navbar({ isLoggedIn, onLogout }) {
                 onClick={() => setShowNotifications((prev) => !prev)}
                 className="text-white text-xl"
               >
-                <Bell></Bell>
+                <Bell />
               </button>
 
-              <Link to="/profile" className="text-white flex justify-end underline">
-                <User></User>
-              </Link>
+              {location.pathname !== "/profile" && (
+                <Link to="/profile" className="text-white flex justify-end underline">
+                  <User />
+                </Link>
+              )}
 
               {showNotifications && (
                 <div className="absolute right-0 top-12 w-80 bg-white rounded shadow-lg z-50">
