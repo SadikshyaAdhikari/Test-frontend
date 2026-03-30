@@ -10,7 +10,7 @@ export default function CommentList({ comments, currentUser, fetchComments, post
                 <p className="text-gray-400 text-sm">No comments yet</p>
             ) : (
                 safeComments.map(comment => (
-                    <Comment
+                    <Comment 
                         key={comment.id}
                         comment={comment}
                         currentUser={currentUser}
