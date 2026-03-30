@@ -4,9 +4,10 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { GoogleLogin } from "@react-oauth/google";
 import { useAuth } from "../../lib/AuthContext.jsx";
+import { Link } from "react-router-dom";
 
 export function Login() {
-const { register, handleSubmit, watch, formState: { errors } } = useForm({ mode: "onChange" });  const [loading, setLoading] = useState(false);
+  const { register, handleSubmit, watch, formState: { errors } } = useForm({ mode: "onChange" }); const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const nav = useNavigate();
   const { login } = useAuth();
@@ -77,6 +78,13 @@ const { register, handleSubmit, watch, formState: { errors } } = useForm({ mode:
   return (
     <div className="bg-[#242526] text-white rounded-lg shadow-lg p-8 w-full max-w-md mx-auto mt-16">
       <form onSubmit={handleSubmit(onSubmit)}>
+
+         <div className="flex justify-start">
+          <Link to="/" className="text-gray-500 py-2 rounded-md text-4xl font-extrabold">
+            ←
+          </Link>
+        </div>
+
         <h2 className="flex justify-start text-xl font-bold text-white mb-6 text-center">Login</h2>
 
         <div className="relative mb-4 w-full">
@@ -91,7 +99,7 @@ const { register, handleSubmit, watch, formState: { errors } } = useForm({ mode:
                focus:outline-none 
                focus:ring-1 focus:ring-[#0064e0]
                focus:border-transparent"
-            {...register("email", { required: "Email is required" })}
+            {...register("email")}
           />
 
           <label
@@ -132,7 +140,7 @@ const { register, handleSubmit, watch, formState: { errors } } = useForm({ mode:
                focus:outline-none 
                 focus:ring-1 focus:ring-[#0064e0]
                focus:border-transparent"
-            {...register("password", { required: "Password is required" })}
+            {...register("password")}
           />
 
           <label
@@ -154,6 +162,8 @@ const { register, handleSubmit, watch, formState: { errors } } = useForm({ mode:
             Password
           </label>
 
+          
+
           {errors.password && (
             <p className="text-red-500 text-sm mt-1">
               {errors.password.message}
@@ -161,39 +171,26 @@ const { register, handleSubmit, watch, formState: { errors } } = useForm({ mode:
           )}
         </div>
 
-
-
-        {/* <div className="mb-4">
+        <div className="mb-4">
           <button
             type="submit"
-            disabled={loading}
-            className="w-full bg-[#133b6e] hover:bg-[#0064e0] disabled:bg-indigo-400 text-white font-semibold py-2 px-4 rounded-3xl transition duration-200"
+            disabled={isDisabled}
+            className={`w-full font-semibold py-2 px-4 rounded-3xl transition
+      ${isDisabled
+                ? "bg-[#133b6e] text-gray-500 border border-gray-600 cursor-not-allowed"
+                : "bg-[#133b6e] text-white hover:bg-[#0064e0] focus:ring-2 focus:ring-[#0064e0]"
+              }`}
           >
             {loading ? "Logging in..." : "Log in"}
           </button>
-          {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
-        </div> */}
 
-        <div className="mb-4">
-  <button
-    type="submit"
-    disabled={isDisabled}
-    className={`w-full font-semibold py-2 px-4 rounded-3xl transition
-      ${isDisabled
-        ? "bg-[#133b6e] text-gray-500 border border-gray-600 cursor-not-allowed"
-        : "bg-[#133b6e] text-white hover:bg-[#0064e0] focus:ring-2 focus:ring-[#0064e0]"
-      }`}
-  >
-    {loading ? "Logging in..." : "Log in"}
-  </button>
+          {error && (
+            <p className="text-red-500 text-sm mt-2">
+              {error}
+            </p>
+          )}
+        </div>
 
-  {error && (
-    <p className="text-red-500 text-sm mt-2">
-      {error}
-    </p>
-  )}
-</div>
-        
 
         <div className="text-center">
           <a

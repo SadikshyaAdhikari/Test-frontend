@@ -18,9 +18,9 @@ export function Navbar({ isLoggedIn, onLogout }) {
               <Link to="/login" className="text-gray-300 px-3 py-2">
                 Login
               </Link>
-              <Link to="/register" className="text-gray-300 px-3 py-2">
+              {/* <Link to="/register" className="text-gray-300 px-3 py-2">
                 Register
-              </Link>
+              </Link> */}
             </>
           ) : (
             <>

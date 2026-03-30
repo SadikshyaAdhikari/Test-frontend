@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
+import { Link } from "react-router-dom";
+
 
 export function Register() {
   const {
@@ -27,7 +29,7 @@ export function Register() {
       alert("Registered successfully!");
 
       window.location.href = "/login";
-    
+
     } catch (err) {
       setError(err.response?.data?.error || "Registration failed");
     } finally {
@@ -36,69 +38,208 @@ export function Register() {
   };
 
   return (
-      <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-md">
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <h2 className="text-3xl font-bold text-gray-900 mb-6 text-center">Register</h2>
-          
-          <div className="mb-4">
-            <input
-              type="text"
-              placeholder="Full Name"
-              className="w-full px-4 py-2 border border-gray-900 bg-white text-black  rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-              {...register("username", { required: "Name is required" })}
-            />
-            {errors.username && <p className="text-red-500 text-sm mt-1">{errors.username.message}</p>}
-          </div>
+    <div className="bg-[#242526] text-white rounded-lg shadow-lg p-8 w-full max-w-md mx-auto mt-16">
+      <form onSubmit={handleSubmit(onSubmit)}>
 
-          <div className="mb-4">
-            <input
-              type="email"
-              placeholder="Email"
-              className="w-full px-4 py-2 border border-gray-900 bg-white text-black  rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-              {...register("email", { required: "Email is required" })}
-            />
-            {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>}
-          </div>
+        <div className="flex justify-start">
+          <Link to="/login" className="text-gray-500 py-2 rounded-md text-4xl font-extrabold">
+            ←
+          </Link>
+        </div>
 
-          <div className="mb-4">
-            <input
-              type="password"
-              placeholder="Password"
-              className="w-full px-4 py-2 border border-gray-900 bg-white text-black  rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-              {...register("password", {
-                required: "Password is required",
-                minLength: { value: 6, message: "Min 6 characters" },
-              })}
-            />
-            {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>}
-          </div>
+        <h2 className="flex justify-start text-xl font-bold text-white text-center">Get Started</h2>
+        <p className="flex justify-start text-xl text-white mb-6 text-left">Sign up to see photos and videos from your friends.</p>
 
-          <div className="mb-6">
-            <input
-              type="text"
-              placeholder="Role"
-              className="w-full px-4 py-2 border border-gray-900 bg-white text-black  rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-              {...register("role", { required: "Role is required" })}
-            />
-            {errors.role && <p className="text-red-500 text-sm mt-1">{errors.role.message}</p>}
-          </div>
+        <div className="relative mb-4 w-full">
+          <input
+            type="email"
+            id="email"
+            placeholder=" "
+            className="peer w-full px-4 py-3
+               bg-[#242526] text-white 
+               border border-gray-500
+               rounded-2xl
+               focus:outline-none 
+               focus:ring-1 focus:ring-gray-500
+               focus:border-transparent"
+            {...register("email")}
+          />
 
-          <div className="mb-4">
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full bg-indigo-600 hover:bg-indigo-700 disabled:bg-indigo-400 text-white font-semibold py-2 px-4 rounded-lg transition duration-200"
-            >
-              {loading ? "Registering..." : "Register"}
-            </button>
-            {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
-          </div>
+          <label
+            htmlFor="email"
+            className="absolute left-4 top-3 text-gray-400 text-base
+             transition-all
+             
+             peer-placeholder-shown:top-3
+             peer-placeholder-shown:text-base
+             
+             peer-focus:top-1
+             peer-focus:text-xs
+             peer-focus:text-
 
-          <div className="text-center">
-            <a href="/login" className="text-indigo-700 hover:text-indigo-900 underline text-sm">Already have an account? Login</a>
-          </div>
-        </form>
-      </div>
-    
+             peer-[&:not(:placeholder-shown)]:top-1
+             peer-[&:not(:placeholder-shown)]:text-xs
+             peer-[&:not(:placeholder-shown)]:text-gray-500"
+          >
+            Email
+          </label>
+
+          {errors.email && (
+            <p className="text-red-500 text-sm mt-1">
+              {errors.email.message}
+            </p>
+          )}
+        </div>
+
+        <div className="relative mb-6">
+          <input
+            type="password"
+            id="password"
+            placeholder=" "
+            className="peer w-full px-4 py-3
+               bg-[#242526] text-white 
+               border border-gray-500
+               rounded-2xl
+               focus:outline-none 
+                focus:ring-1 focus:ring-gray-500
+               focus:border-transparent"
+            {...register("password")}
+          />
+
+          <label
+            htmlFor="password"
+            className="absolute left-4 top-3 text-gray-400 text-base
+             transition-all
+             
+             peer-placeholder-shown:top-3
+             peer-placeholder-shown:text-base
+             
+             peer-focus:top-1
+             peer-focus:text-xs
+             peer-focus:text-gray-500
+
+             peer-[&:not(:placeholder-shown)]:top-1
+             peer-[&:not(:placeholder-shown)]:text-xs
+             peer-[&:not(:placeholder-shown)]:text-gray-500"
+          >
+            Password
+          </label>
+
+
+
+          {errors.password && (
+            <p className="text-red-500 text-sm mt-1">
+              {errors.password.message}
+            </p>
+          )}
+        </div>
+
+
+        <div className="relative mb-6">
+          <input
+            type="text"
+            id="fullname"
+            placeholder=""
+            className="peer w-full px-4 py-3
+               bg-[#242526] text-white 
+               border border-gray-500
+               rounded-2xl
+               focus:outline-none 
+                focus:ring-1 focus:ring-gray-500
+               focus:border-transparent"
+            {...register("username", { required: "Name is required" })}
+
+          />
+          <label
+            htmlFor="fullname"
+            className="absolute left-4 top-3 text-gray-400 text-base
+             transition-all
+             
+             peer-placeholder-shown:top-3
+             peer-placeholder-shown:text-base
+             
+             peer-focus:top-1
+             peer-focus:text-xs
+             peer-focus:text-gray-500
+
+             peer-[&:not(:placeholder-shown)]:top-1
+             peer-[&:not(:placeholder-shown)]:text-xs
+             peer-[&:not(:placeholder-shown)]:text-gray-500"
+          >
+            Full Name
+          </label>
+          {errors.username && <p className="text-red-500 text-sm mt-1">{errors.username.message}</p>}
+        </div>
+
+        <div className="relative mb-6">
+          <input
+            type="role"
+            id="role"
+            placeholder=""
+            className="peer w-full px-4 py-3
+               bg-[#242526] text-white 
+               border border-gray-500
+               rounded-2xl
+               focus:outline-none 
+                focus:ring-1 focus:ring-gray-500
+               focus:border-transparent"
+            {...register("role", { required: "Role is required" })}
+
+          />
+          <label
+            htmlFor="role"
+            className="absolute left-4 top-3 text-gray-400 text-base
+             transition-all
+             
+             peer-placeholder-shown:top-3
+             peer-placeholder-shown:text-base
+             
+             peer-focus:top-1
+             peer-focus:text-xs
+             peer-focus:text-gray-500
+
+             peer-[&:not(:placeholder-shown)]:top-1
+             peer-[&:not(:placeholder-shown)]:text-xs
+             peer-[&:not(:placeholder-shown)]:text-gray-500"
+          >
+            Role
+          </label>
+          {errors.role && <p className="text-red-500 text-sm mt-1">{errors.role.message}</p>}
+        </div>
+
+        <p className="flex justify-start text-base text-white mb-6 text-left">By tapping Submit, you agree to create an account.</p>
+
+        <div className="mb-4">
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full bg-[#0064e0] hover:bg-[#3385ff] disabled:bg-indigo-400 text-white font-semibold py-2 px-4 rounded-3xl transition duration-200"
+          >
+            {loading ? "Registering..." : "Submit"}
+          </button>
+          {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
+        </div>
+
+        <div className="mb-4 w-full">
+          <a
+            href="/login"
+            className="block w-full px-4 py-2
+               bg-[#242526] 
+               border border-gray-500
+               rounded-3xl
+               placeholder-gray-400
+               focus:outline-none 
+               focus:ring-2 focus:ring-indigo-500 
+               focus:border-transparent
+               text-center
+                hover:bg-[#35353b]"
+          >
+            I already have an account
+          </a>
+        </div>
+
+      </form>
+    </div>
+
   );
 }
