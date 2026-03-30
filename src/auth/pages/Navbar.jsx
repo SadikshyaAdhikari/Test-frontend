@@ -1,7 +1,7 @@
 import Notifications from '@/components/Notifications';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Bell } from 'lucide-react';
+import { Bell, User } from 'lucide-react';
 
 
 export function Navbar({ isLoggedIn, onLogout }) {
@@ -20,9 +20,6 @@ export function Navbar({ isLoggedIn, onLogout }) {
               <Link to="/login" className="text-gray-300 px-3 py-2">
                 Login
               </Link>
-              {/* <Link to="/register" className="text-gray-300 px-3 py-2">
-                Register
-              </Link> */}
             </>
           ) : (
             <>
@@ -33,6 +30,10 @@ export function Navbar({ isLoggedIn, onLogout }) {
                 <Bell></Bell>
               </button>
 
+              <Link to="/profile" className="text-white flex justify-end underline">
+                <User></User>
+              </Link>
+
               {showNotifications && (
                 <div className="absolute right-0 top-12 w-80 bg-white rounded shadow-lg z-50">
                   <Notifications />
@@ -41,7 +42,7 @@ export function Navbar({ isLoggedIn, onLogout }) {
 
               <button
                 onClick={onLogout}
-                className="bg-red-400 text-white px-4 py-2 rounded"
+                className="bg-red-400 text-white px-2 py-2 rounded-lg"
               >
                 Logout
               </button>

@@ -6,7 +6,7 @@ import { Navbar } from "./Navbar.jsx";
 import Feed from '../../components/Feed.jsx';
 import CreatePost from "../../components/CreatePost.jsx";
 import SearchPosts from "../../components/SearchPosts.jsx";
-import { Link } from "react-router-dom";
+
 
 export function Dashboard() {
 
@@ -79,41 +79,12 @@ export function Dashboard() {
           }
         }}
       />
-      {/* <h2>My details</h2>
 
-      <form>
-        <div>
-          <label>Name:</label>
-          <input type="text" {...register("name")} readOnly />
-        </div>
-
-        <br />
-
-        <div>
-          <label>Email:</label>
-          <input type="text" {...register("email")} readOnly />
-        </div>
-      </form>
-      <br /> */}
-
-      <Link to="/profile" className="text-blue-500 flex justify-end underline">
-        Profile
-      </Link>
+     
       <CreatePost currentUser={user} />
       <SearchPosts />
       <Feed currentUser={user} page={page} />
-     {/* <div className="flex justify-between mt-4">
-        <button
-          onClick={() => setPage(prev => Math.max(prev-1, 1))}
-          disabled={page === 1}
-        >
-          Prev
-        </button>
-
-        <button onClick={() => setPage(page + 1)}>
-          Next
-        </button>
-      </div>  */}
+     
     </div>
   );
 }
