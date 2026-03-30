@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { Trash } from 'lucide-react';
 
 export default function Comment({ comment, currentUser, fetchComments, postOwnerId }) {
     const [username, setUsername] = useState("Loading...");
@@ -54,7 +55,7 @@ export default function Comment({ comment, currentUser, fetchComments, postOwner
                     onClick={handleDelete}
                     className="text-red-500 text-xs ml-2"
                 >
-                    Delete
+                   <Trash size={15}></Trash>
                 </button>
             )}
         </div>

@@ -96,8 +96,8 @@ export function Dashboard() {
       </form>
       <br /> */}
 
-      <Link to="/profile" className="text-blue-500 underline">
-        Go to Profile
+      <Link to="/profile" className="text-blue-500 flex justify-end underline">
+        Profile
       </Link>
       <CreatePost currentUser={user} />
       <SearchPosts />

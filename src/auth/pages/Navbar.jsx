@@ -1,6 +1,8 @@
 import Notifications from '@/components/Notifications';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { Bell } from 'lucide-react';
+
 
 export function Navbar({ isLoggedIn, onLogout }) {
   const [showNotifications, setShowNotifications] = useState(false);
@@ -28,7 +30,7 @@ export function Navbar({ isLoggedIn, onLogout }) {
                 onClick={() => setShowNotifications((prev) => !prev)}
                 className="text-white text-xl"
               >
-                🔔
+                <Bell></Bell>
               </button>
 
               {showNotifications && (
