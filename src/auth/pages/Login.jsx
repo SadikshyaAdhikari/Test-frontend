@@ -5,6 +5,9 @@ import axios from "axios";
 import { GoogleLogin } from "@react-oauth/google";
 import { useAuth } from "../../lib/AuthContext.jsx";
 import { Link } from "react-router-dom";
+import { colors } from "@/utils/colors.js";
+import InputField from "@/components/InputField";
+
 
 export function Login() {
   const { register, handleSubmit, watch, formState: { errors } } = useForm({ mode: "onChange" }); const [loading, setLoading] = useState(false);
@@ -76,100 +79,37 @@ export function Login() {
   };
 
   return (
-    <div className="bg-[#242526] text-white rounded-lg shadow-lg p-8 w-full max-w-md mx-auto mt-16">
+
+    <div
+      style={{ backgroundColor: colors.background }}
+      className="text-white rounded-lg shadow-lg p-8 w-full max-w-md mx-auto mt-8">
       <form onSubmit={handleSubmit(onSubmit)}>
 
-         <div className="flex justify-start">
-          <Link to="/" className="text-gray-500 py-2 rounded-md text-4xl font-extrabold">
+        <div className="flex justify-start">
+          <Link to="/" className="text-gray-500 text-4xl font-extrabold">
             ←
           </Link>
         </div>
 
         <h2 className="flex justify-start text-xl font-bold text-white mb-6 text-center">Login</h2>
 
-        <div className="relative mb-4 w-full">
-          <input
-            type="email"
-            id="email"
-            placeholder=" "
-            className="peer w-full px-4 py-3
-               bg-[#242526] text-white 
-               border border-gray-500
-               rounded-2xl
-               focus:outline-none 
-               focus:ring-1 focus:ring-[#0064e0]
-               focus:border-transparent"
-            {...register("email")}
-          />
+        <InputField
+          id="email"
+          type="email"
+          label="Email"
+          register={register}
+          errors={errors}
+          required="Email is required"
+        />
 
-          <label
-            htmlFor="email"
-            className="absolute left-4 top-3 text-gray-400 text-base
-             transition-all
-             
-             peer-placeholder-shown:top-3
-             peer-placeholder-shown:text-base
-             
-             peer-focus:top-1
-             peer-focus:text-xs
-             peer-focus:text-[#0064e0]
-
-             peer-[&:not(:placeholder-shown)]:top-1
-             peer-[&:not(:placeholder-shown)]:text-xs
-             peer-[&:not(:placeholder-shown)]:text-[#0064e0]"
-          >
-            Email
-          </label>
-
-          {errors.email && (
-            <p className="text-red-500 text-sm mt-1">
-              {errors.email.message}
-            </p>
-          )}
-        </div>
-
-        <div className="relative mb-6">
-          <input
-            type="password"
-            id="password"
-            placeholder=" "
-            className="peer w-full px-4 py-3
-               bg-[#242526] text-white 
-               border border-gray-500
-               rounded-2xl
-               focus:outline-none 
-                focus:ring-1 focus:ring-[#0064e0]
-               focus:border-transparent"
-            {...register("password")}
-          />
-
-          <label
-            htmlFor="password"
-            className="absolute left-4 top-3 text-gray-400 text-base
-             transition-all
-             
-             peer-placeholder-shown:top-3
-             peer-placeholder-shown:text-base
-             
-             peer-focus:top-1
-             peer-focus:text-xs
-             peer-focus:text-[#0064e0]
-
-             peer-[&:not(:placeholder-shown)]:top-1
-             peer-[&:not(:placeholder-shown)]:text-xs
-             peer-[&:not(:placeholder-shown)]:text-[#0064e0]"
-          >
-            Password
-          </label>
-
-          
-
-          {errors.password && (
-            <p className="text-red-500 text-sm mt-1">
-              {errors.password.message}
-            </p>
-          )}
-        </div>
+        <InputField
+          id="password"
+          type="password"
+          label="Password"
+          register={register}
+          errors={errors}
+          required="Password is required"
+        />
 
         <div className="mb-4">
           <button
@@ -233,7 +173,7 @@ export function Login() {
           <a
             href="/register"
             className="block w-full px-4 py-2
-               bg-[#242526] text-[#0064e0]
+               bg-[#2b2c30] text-[#0064e0]
                border border-[#0064e0]
                rounded-3xl
                placeholder-gray-400
