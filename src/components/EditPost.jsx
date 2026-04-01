@@ -69,7 +69,7 @@ export default function EditPost({ post, onUpdate, onCancel }) {
         <button
           type="submit"
           disabled={loading}
-          className="bg-blue-500 text-white px-4 py-2"
+          className="bg-blue-500 text-white px-4 py-2 rounded-2xl"
         >
           {loading ? "Updating..." : "Update"}
         </button>
@@ -77,7 +77,7 @@ export default function EditPost({ post, onUpdate, onCancel }) {
         <button
           type="button"
           onClick={onCancel}
-          className="bg-gray-400 text-white px-4 py-2"
+          className="bg-gray-400 text-white px-4 py-2 rounded-2xl"
         >
           Cancel
         </button>
