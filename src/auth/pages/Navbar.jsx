@@ -1,11 +1,14 @@
 import Notifications from '@/components/Notifications';
 import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom'; 
+import { Link, useLocation } from 'react-router-dom';
 import { Bell, User } from 'lucide-react';
+import { useAuth } from '@/lib/AuthContext';
 
 export function Navbar({ isLoggedIn, onLogout }) {
   const [showNotifications, setShowNotifications] = useState(false);
-  const location = useLocation(); 
+  const location = useLocation();
+  const { user } = useAuth();
+
 
   return (
     <nav className="bg-gray-800 p-4">
@@ -35,6 +38,15 @@ export function Navbar({ isLoggedIn, onLogout }) {
                   <User />
                 </Link>
               )}
+
+              <img
+                src={
+                  user?.avatar_url
+                    ? `${import.meta.env.VITE_API_BASE_URL}${user.avatar_url}`
+                    : "/default-avatar.png"
+                }
+                className="w-10 h-10 rounded-full object-cover"
+              />
 
               {showNotifications && (
                 <div className="absolute right-0 top-12 w-80 bg-white rounded shadow-lg z-50">

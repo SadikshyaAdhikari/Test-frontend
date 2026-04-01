@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useAuth } from "@/lib/AuthContext";
+
 
 export default function AvatarUploader() {
     const [file, setFile] = useState(null);
     const [preview, setPreview] = useState(null);
     const [username, setUsername] = useState("");
     const [uploading, setUploading] = useState(false);
+    const { setUser } = useAuth();
 
     const handleFileChange = (e) => {
         const selectedFile = e.target.files[0];
@@ -39,6 +42,11 @@ export default function AvatarUploader() {
                 }
             );
 
+            setUser((prev) => ({
+                ...prev,
+                avatar: res.data.avatarUrl,
+            }));
+
             console.log(res.data);
             alert("Upload successful!");
             setFile(null);
@@ -54,13 +62,13 @@ export default function AvatarUploader() {
 
     return (
         <form onSubmit={handleUpload} className="avatar-uploader">
-            <input
+            {/* <input
                 type="text"
                 placeholder="Username"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 required
-            />
+            /> */}
 
             <input type="file" accept="image/*" onChange={handleFileChange} required />
 
