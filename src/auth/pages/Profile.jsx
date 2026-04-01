@@ -39,7 +39,7 @@ export function Profile() {
                     `${import.meta.env.VITE_API_BASE_URL}/api/auth/current-user`,
                     { withCredentials: true }
                 );
-                
+
                 const u = res.data.user;
                 setUser(u);
                 setValue("name", u.username);
@@ -78,17 +78,12 @@ export function Profile() {
 
             <div className="max-w-xl mx-auto mt-6">
                 <h2 className="text-2xl font-bold mb-4">My Profile</h2>
-                {/* <div className="bg-white p-4 rounded shadow mb-6">
-                    <p><strong>Username:</strong> {user?.username}</p>
-                    <p><strong>Email:</strong> {user?.email}</p>
-                </div> */}
-                 <AvatarUploader />
+
+                {/* <AvatarUploader /> */}
 
                 <CreatePost currentUser={user} />
-                
-                {/* <h3 className="text-xl font-bold mb-2">My Posts</h3> */}
                 <Feed currentUser={user} userId={user?.id} />
-               
+
 
             </div>
         </div>

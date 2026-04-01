@@ -3,7 +3,6 @@ import { Link, useLocation } from "react-router-dom";
 import { Bell, Menu } from "lucide-react";
 import { useAuth } from "@/lib/AuthContext";
 import Notifications from "@/components/Notifications";
-import AvatarUploader from "@/components/AvatarUploader";
 
 export function Navbar({ isLoggedIn, onLogout }) {
   const { user } = useAuth();
@@ -82,7 +81,7 @@ export function Navbar({ isLoggedIn, onLogout }) {
 
             {showMenu && (
               <div
-                id="hamburger-menu"
+                // id="hamburger-menu"
                 className="absolute right-0 top-12 w-64 bg-gray-700 text-white rounded-lg shadow-lg p-4 z-50"
               >
                 <div className="flex flex-col items-center mb-4">
@@ -94,7 +93,7 @@ export function Navbar({ isLoggedIn, onLogout }) {
                     }
                     className="w-20 h-20 rounded-full object-cover mb-2"
                   />
-                  <Link to="/avatar" className="flex items-center">
+                  <Link to="/avatar" className="w-full bg-sky-600 hover:bg-sky-700 text-white py-2 rounded">
                     Upload Profile
                   </Link>
 
