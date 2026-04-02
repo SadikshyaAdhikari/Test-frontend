@@ -1,20 +1,28 @@
+
 import React, { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Bell, Menu } from "lucide-react";
 import { useAuth } from "@/lib/AuthContext";
 import Notifications from "@/components/Notifications";
 
 export function Navbar({ isLoggedIn, onLogout }) {
   const { user } = useAuth();
-  const location = useLocation();
-
   const [showNotifications, setShowNotifications] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
 
   useEffect(() => {
     const handleClickOutside = (e) => {
-      if (!e.target.closest("#hamburger-menu") && !e.target.closest("#hamburger-btn")) {
+      if (
+        !e.target.closest("#hamburger-menu") &&
+        !e.target.closest("#hamburger-btn")
+      ) {
         setShowMenu(false);
+      }
+      if (
+        !e.target.closest("#notifications-dropdown") &&
+        !e.target.closest("#notifications-btn")
+      ) {
+        setShowNotifications(false);
       }
     };
     document.addEventListener("click", handleClickOutside);
@@ -28,17 +36,21 @@ export function Navbar({ isLoggedIn, onLogout }) {
           MyApp
         </Link>
 
-        {isLoggedIn ? (
-          <div className="hidden md:flex items-center space-x-4 relative">
+        {isLoggedIn && (
+          <div className="flex items-center space-x-4 relative">
             <button
+              id="notifications-btn"
               onClick={() => setShowNotifications((prev) => !prev)}
-              className="text-white text-xl"
+              className="text-white text-xl relative"
             >
               <Bell />
             </button>
 
             {showNotifications && (
-              <div className="absolute right-0 top-12 w-80 bg-white rounded shadow-lg z-50">
+              <div
+                id="notifications-dropdown"
+                className="absolute right-0 top-12 w-80 bg-white rounded shadow-lg z-50"
+              >
                 <Notifications />
               </div>
             )}
@@ -54,59 +66,64 @@ export function Navbar({ isLoggedIn, onLogout }) {
               />
             </Link>
 
-            <button
-              onClick={onLogout}
-              className="bg-red-400 text-white px-2 py-2 rounded-lg"
-            >
-              Logout
-            </button>
-          </div>
-        ) : (
-          <div className="hidden md:flex items-center space-x-4">
-            <Link to="/login" className="text-gray-300 px-3 py-2">
-              Login
-            </Link>
+            <div className="relative">
+              <button
+                id="hamburger-btn"
+                onClick={() => setShowMenu((prev) => !prev)}
+                className="text-white"
+              >
+                <Menu size={24} />
+              </button>
+
+              {showMenu && (
+                <div
+                  id="hamburger-menu"
+                  className="absolute right-0 top-12 w-64 bg-gray-700 text-white rounded-lg shadow-lg p-4 z-50"
+                >
+                  <div className="flex flex-col items-center mb-4">
+                    <img
+                      src={
+                        user?.avatar_url
+                          ? `${import.meta.env.VITE_API_BASE_URL}${user.avatar_url}`
+                          : "/default-avatar.png"
+                      }
+                      className="w-20 h-20 rounded-full object-cover mb-2"
+                    />
+                  </div>
+
+                  <Link
+                    to="/avatar"
+                    className="text-white"
+                  >
+                    Upload Avatar
+                  </Link>
+
+                  <br />
+
+                  <Link
+                    to="/update-password"
+                    className="text-white"
+                  >
+                    Update Password
+                  </Link>
+
+                  <button
+                    onClick={onLogout}
+                    className="w-2/3 bg-red-500 hover:bg-red-600 text-white py-2 rounded mt-2"
+                  >
+                    Logout
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
         )}
 
-        {isLoggedIn && (
-          <div className="md:hidden relative">
-            <button
-              id="hamburger-btn"
-              onClick={() => setShowMenu((prev) => !prev)}
-              className="text-white"
-            >
-              <Menu size={24} />
-            </button>
-
-            {showMenu && (
-              <div
-                // id="hamburger-menu"
-                className="absolute right-0 top-12 w-64 bg-gray-700 text-white rounded-lg shadow-lg p-4 z-50"
-              >
-                <div className="flex flex-col items-center mb-4">
-                  <img
-                    src={
-                      user?.avatar_url
-                        ? `${import.meta.env.VITE_API_BASE_URL}${user.avatar_url}`
-                        : "/default-avatar.png"
-                    }
-                    className="w-20 h-20 rounded-full object-cover mb-2"
-                  />
-                  <Link to="/avatar" className="w-full bg-sky-600 hover:bg-sky-700 text-white py-2 rounded">
-                    Upload Profile
-                  </Link>
-
-                </div>
-
-                <button
-                  onClick={onLogout}
-                  className="w-full bg-red-500 hover:bg-red-600 text-white py-2 rounded"
-                >
-                  Logout
-                </button>
-              </div>
-            )}
+        {!isLoggedIn && (
+          <div className="flex items-center space-x-4">
+            <Link to="/login" className="text-gray-300 px-3 py-2">
+              Login
+            </Link>
           </div>
         )}
       </div>
