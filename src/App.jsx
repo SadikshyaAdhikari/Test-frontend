@@ -13,6 +13,7 @@ import { PublicProfile } from './components/PublicProfile.jsx';
 
 import './App.css'
 import { Profile } from './auth/pages/Profile.jsx';
+import AvatarUploader from './components/AvatarUploader.jsx';
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
         <Route path="/posts" element={<Post />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/users/:userId" element={<PublicProfile />} />
+        <Route path="/avatar" element={<AvatarUploader />} />
       </Routes>
     </Router>
   )

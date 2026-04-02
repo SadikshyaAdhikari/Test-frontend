@@ -19,6 +19,8 @@ export function Post({ post, currentUser, onUpdate }) {
 
   const [username, setUsername] = useState("Loading...");
 
+  const [showComments, setShowComments] = useState(false);
+
   const fetchUserName = async (userId) => {
     try {
       const res = await axios.get(
@@ -55,22 +57,17 @@ export function Post({ post, currentUser, onUpdate }) {
         { withCredentials: true }
       );
 
-
       const data = Array.isArray(res.data)
         ? res.data
         : res.data.comments || [];
 
       setComments(data);
 
-
     } catch (err) {
       console.error("Failed to fetch comments:", err);
     }
   };
 
-  useEffect(() => {
-    fetchComments();
-  }, [post.id]);
 
   const handleDelete = async () => {
     if (!window.confirm("Delete this post?")) return;
@@ -107,15 +104,24 @@ export function Post({ post, currentUser, onUpdate }) {
     }
   };
 
-  return (
-    <div className="border p-4 rounded mb-4 shadow">
+  const handleToggleComments = () => {
+    if (!showComments) {
+      fetchComments();
+    }
+    setShowComments((prev) => !prev);
+  };
 
-      <div className="text-sm text-gray-700 mb-2">
+  return (
+    <div className="bg-white border border-gray-200 p-4 rounded-2xl mb-5 shadow-sm">
+
+      <div className="text-base text-gray-700 mb-2 flex flex-col items-start">
         <Link to={owner ? "/profile" : `/users/${post.user_id}`}>
           {username}
         </Link>
-        <br />
-        {new Date(post.created_at).toLocaleString()}
+
+        <span className="text-sm text-gray-500">
+          {new Date(post.created_at).toLocaleString()}
+        </span>
       </div>
 
       {owner && (
@@ -123,7 +129,6 @@ export function Post({ post, currentUser, onUpdate }) {
           <button onClick={() => setShowMenu((prev) => !prev)}>
             ⋮
           </button>
-
 
           {showMenu && (
             <div className="absolute right-0 mt-4 w-32 bg-white border rounded shadow">
@@ -147,7 +152,6 @@ export function Post({ post, currentUser, onUpdate }) {
           )}
         </div>
       )}
-
 
       {isEditing ? (
         <EditPost
@@ -173,26 +177,31 @@ export function Post({ post, currentUser, onUpdate }) {
 
       <div className="flex gap-4 mt-2">
         <button onClick={toggleLike}>
-          {liked ? "💖" : "🤍"} {likes}
+          {liked ? "❤️" : "🤍"} {likes}
         </button>
 
-        <button onClick={fetchComments}>
+        <button onClick={handleToggleComments}>
           💬 {post.comment_count}
         </button>
       </div>
 
-      <CommentList
-        comments={comments}
-        currentUser={currentUser}
-        fetchComments={fetchComments}
-        postOwnerId={post.user_id}
-      />
+      {showComments && (
+        <div className="border-t border-gray-200 pt-2 mt-2">
+          <CommentList
+            comments={comments}
+            currentUser={currentUser}
+            fetchComments={fetchComments}
+            postOwnerId={post.user_id}
+          />
 
-      <CommentForm
-        postId={post.id}
-        fetchComments={fetchComments}
-        currentUser={currentUser}
-      />
+          <CommentForm
+            postId={post.id}
+            fetchComments={fetchComments}
+            currentUser={currentUser}
+          />
+        </div>
+      )}
+
     </div>
   );
 }

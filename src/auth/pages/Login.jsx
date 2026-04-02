@@ -4,13 +4,22 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { GoogleLogin } from "@react-oauth/google";
 import { useAuth } from "../../lib/AuthContext.jsx";
+import { Link } from "react-router-dom";
+import { colors } from "@/utils/colors.js";
+import InputField from "@/components/InputField";
+
+
 
 export function Login() {
-  const { register, handleSubmit, formState: { errors } } = useForm();
-  const [loading, setLoading] = useState(false);
+  const { register, handleSubmit, watch, formState: { errors } } = useForm({ mode: "onChange" }); const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const nav = useNavigate();
   const { login } = useAuth();
+
+  const email = watch("email");
+  const password = watch("password");
+
+  const isDisabled = !email || !password || loading;
 
   useEffect(() => {
     const checkUser = async () => {
@@ -71,84 +80,110 @@ export function Login() {
   };
 
   return (
-    <div className="bg-[#1f1f22] text-white rounded-lg shadow-lg p-8 w-full max-w-md mx-auto mt-16">
+
+    <div
+      style={{ backgroundColor: colors.background }}
+      className="text-white rounded-lg shadow-lg p-8 w-full max-w-md mx-auto mt-8">
       <form onSubmit={handleSubmit(onSubmit)}>
+
+        <div className="flex justify-start">
+          <Link to="/" className="text-gray-200 text-4xl font-extrabold">
+            ←
+          </Link>
+        </div>
+
         <h2 className="flex justify-start text-xl font-bold text-white mb-6 text-center">Login</h2>
 
+        <InputField
+          id="email"
+          type="email"
+          label="Email"
+          register={register}
+          errors={errors}
+          required="Email is required"
+        />
 
-        <div className="mb-4">
-          <input
-            type="email"
-            placeholder="email"
-            className="w-full px-4 py-2 
-               bg-[#1f1f22] text-white 
-               border border-white 
-               rounded-lg 
-               placeholder-gray-400
-               focus:outline-none 
-               focus:ring-2 focus:ring-indigo-500 
-               focus:border-transparent"
-            {...register("email", { required: "Email is required" })}
-          />
-          {errors.email && (
-            <p className="text-red-500 text-sm mt-1">
-              {errors.email.message}
-            </p>
-          )}
-        </div>
-
-        <div className="mb-6">
-          <input
-            type="password"
-            placeholder="Password"
-            className="w-full px-4 py-2 
-               bg-[#1f1f22] text-white 
-               border border-white 
-               rounded-lg 
-               placeholder-gray-400
-               focus:outline-none 
-               focus:ring-2 focus:ring-indigo-500 
-               focus:border-transparent"
-            {...register("password", { required: "Password is required" })}
-          />
-          {errors.password && (
-            <p className="text-red-500 text-sm mt-1">
-              {errors.password.message}
-            </p>
-          )}
-        </div>
+        <InputField
+          id="password"
+          type="password"
+          label="Password"
+          register={register}
+          errors={errors}
+          required="Password is required"
+        />
 
         <div className="mb-4">
           <button
             type="submit"
-            disabled={loading}
-            className="w-full bg-indigo-500 hover:bg-indigo-700 disabled:bg-indigo-400 text-white font-semibold py-2 px-4 rounded-lg transition duration-200"
+            disabled={isDisabled}
+            className={`w-full font-semibold py-2 px-4 rounded-3xl transition
+      ${isDisabled
+                ? "bg-[#133b6e] text-gray-500 border border-gray-600 cursor-not-allowed"
+                : "bg-[#133b6e] text-white hover:bg-[#0064e0] focus:ring-2 focus:ring-[#0064e0]"
+              }`}
           >
             {loading ? "Logging in..." : "Log in"}
           </button>
-          {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
+
+          {error && (
+            <p className="text-red-500 text-sm mt-2">
+              {error}
+            </p>
+          )}
         </div>
 
+
         <div className="text-center">
-          <a href="/forgot-password" className="text-indigo-900 hover:text-indigo-700 text-sm">
+          <a
+            href="/forgot-password"
+            className="text-white text-base
+               w-full
+               px-4 py-2
+               rounded-3xl
+               hover:border
+               hover:border-none
+               hover:bg-[#35353b]
+               transition
+               inline-block"
+          >
             Forgot Password?
           </a>
         </div>
+
         <br />
         <br />
 
 
+        {/* <div className="mb-4 w-full flex justify-center"> <GoogleLogin onSuccess={handleGoogleLogin} onError={() => setError("Google login failed")} /> </div> */}
 
 
-        <div className="mb-4 w-full flex justify-center">
-          <GoogleLogin
-            onSuccess={handleGoogleLogin}
-            onError={() => setError("Google login failed")}
-          />
+        <div className="mb-4 w-full">
+          <div className="w-full rounded-lg overflow-hidden">
+            <GoogleLogin
+              onSuccess={handleGoogleLogin}
+              onError={() => setError("Google login failed")}
+              width={380}
+              shape="pill"
+              size="large"
+              logo_alignment="center"
+            />
+          </div>
         </div>
 
-        <div className="mb-3 text-center">
-          <a href="/register" className="w-full px-4 py-2 border border-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+        <div className="mb-4 w-full">
+          <a
+            href="/register"
+            className="block w-full px-4 py-2
+               bg-[#2b2c30] text-[#0064e0]
+               border border-[#0064e0]
+               rounded-3xl
+               placeholder-gray-400
+               focus:outline-none 
+               focus:ring-2 focus:ring-indigo-500 
+               focus:border-transparent
+               text-center
+                hover:bg-[#35353b]"
+          >
             Create new account
           </a>
         </div>
