@@ -87,7 +87,7 @@ export function Login() {
       <form onSubmit={handleSubmit(onSubmit)}>
 
         <div className="flex justify-start">
-          <Link to="/" className="text-gray-500 text-4xl font-extrabold">
+          <Link to="/" className="text-gray-200 text-4xl font-extrabold">
             ←
           </Link>
         </div>

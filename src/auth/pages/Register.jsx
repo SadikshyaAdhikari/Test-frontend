@@ -43,7 +43,7 @@ export function Register() {
       <form onSubmit={handleSubmit(onSubmit)}>
 
         <div className="flex justify-start">
-          <Link to="/login" className="text-gray-500 py-2 rounded-md text-4xl font-extrabold">
+          <Link to="/login" className="text-gray-200 py-2 rounded-md text-4xl font-extrabold">
             ←
           </Link>
         </div>
