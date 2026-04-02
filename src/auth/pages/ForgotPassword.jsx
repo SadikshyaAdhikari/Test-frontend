@@ -79,7 +79,15 @@ export function ForgotPassword() {
         <div className="text-center mt-6">
           <Link
             to="/login"
-            className="text-white hover:underline text-sm"
+            className="text-white text-base
+               w-full
+               px-4 py-2
+               rounded-3xl
+               hover:border
+               hover:border-none
+               hover:bg-[#35353b]
+               transition
+               inline-block"
           >
             Back to Login
           </Link>

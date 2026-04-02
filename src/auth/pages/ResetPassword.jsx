@@ -67,7 +67,6 @@ export function ResetPassword(){
                         <a href="/login" className="text-indigo-700 hover:text-indigo-900 underline text-sm">Back to Login</a>
                     </div>
                 </form>
-            </div>
-        // </div>     
+            </div>   
     )
 }
